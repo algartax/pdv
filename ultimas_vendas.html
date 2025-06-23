@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBiz - Últimas Vendas</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="ultimas_vendas.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <div class="loading-text">SmartBiz</div>
+            </div>
+            <div class="loading-progress"><div class="progress-bar"></div></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="header-background"></div>
+            <div class="header-container">
+                <div class="logo-section">
+                    <div class="logo-wrapper">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div class="logo-content">
+                            <div class="logo-title">SmartBiz</div>
+                            <div class="logo-subtitle">Point of Sale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="nav-menu" id="navMenu">
+                    <div class="nav-indicator"></div>
+                </nav>
+
+                <div class="user-section">
+                    <div class="notifications" data-count="3">
+                        <div class="notification-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+                    </div>
+                    <div class="search-trigger">
+                        <div class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+                    </div>
+                    <div class="user-info" id="userInfo">
+                        <div class="user-avatar" id="userAvatar">
+                            <div class="avatar-ring"></div>
+                            <span class="avatar-text">U</span>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">Usuário</div>
+                            <div class="user-status">Online</div>
+                        </div>
+                        <div class="user-menu-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></div>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar"><span id="dropdownAvatar">U</span></div>
+                            <div class="dropdown-info">
+                                <div class="dropdown-name" id="dropdownName">Usuário</div>
+                                <div class="dropdown-email" id="dropdownEmail">usuario@email.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil</a>
+                            <a href="#" class="dropdown-item logout" id="logoutBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="main-container">
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                            <circle cx="16" cy="4" r="2"/>
+                            <path d="M2 21h4v-11a2 2 0 0 1 2-2h4v4"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-label">Vendas Hoje</div>
+                        <div class="card-value" id="salesToday">0</div>
+                        <div class="card-trend positive">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 7l-8.5 8.5L9 11l-7 7"/>
+                                <path d="M22 7h-6"/>
+                                <path d="M22 7v6"/>
+                            </svg>
+                            <span id="todayTrend">+0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/>
+                            <path d="M2 10h20"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-label">Faturamento Hoje</div>
+                        <div class="card-value">R$ <span id="revenueToday">0,00</span></div>
+                        <div class="card-subtext" id="averageTicket">Ticket médio: R$ 0,00</div>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20 7h-9"/>
+                            <path d="M14 17H5"/>
+                            <circle cx="17" cy="17" r="3"/>
+                            <circle cx="7" cy="7" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-label">Total de Vendas</div>
+                        <div class="card-value" id="totalSales">0</div>
+                        <div class="card-subtext" id="periodInfo">Últimos 30 dias</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="page-header-content">
+                    <div class="page-info">
+                        <div class="page-breadcrumb">
+                            <span class="breadcrumb-item">Vendas</span>
+                            <svg class="breadcrumb-separator" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                            <span class="breadcrumb-item current">Últimas Vendas</span>
+                        </div>
+                        <h1 class="page-title">
+                            <div class="title-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+                                    <rect x="9" y="3" width="6" height="4" rx="1"/>
+                                    <path d="M9 12h6"/>
+                                    <path d="M9 16h6"/>
+                                </svg>
+                            </div>
+                            Últimas Vendas
+                            <div class="sales-counter">
+                                <span id="salesCount">-</span> registros
+                            </div>
+                        </h1>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn-minimal" onclick="exportSalesReport()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <polyline points="10 9 9 9 8 9"/>
+                            </svg>
+                            <span>Relatório</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <div class="table-info">
+                        <div class="results-count">
+                            Mostrando <span id="showingCount">0</span> de <span id="totalCount">0</span> vendas
+                        </div>
+                        <div class="table-actions">
+                            <button class="icon-btn" onclick="openFilterModal()" title="Filtros">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                                </svg>
+                                <span class="filter-badge" id="activeFiltersCount" style="display: none;">0</span>
+                            </button>
+                            <button class="icon-btn" onclick="refreshData()" title="Atualizar">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M21.5 2v6h-6M2.5 22v-6h6M2 12a10 10 0 0 1 18.8-4.8M22 12a10 10 0 0 1-18.8 4.8"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-state" id="loadingState">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Carregando vendas...</div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state hidden" id="emptyState">
+                    <div class="empty-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+                            <rect x="9" y="3" width="6" height="4" rx="1"/>
+                        </svg>
+                    </div>
+                    <div class="empty-title">Nenhuma venda encontrada</div>
+                    <div class="empty-subtitle">Comece a registrar suas vendas no sistema</div>
+                </div>
+
+                <!-- Table View -->
+                <div class="table-view" id="tableView">
+                    <div class="table-wrapper">
+                        <table class="sales-table" id="salesTable">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-sort="data">
+                                        Data/Hora
+                                        <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path d="M8 9l4-4 4 4M16 15l-4 4-4-4"/>
+                                        </svg>
+                                    </th>
+                                    <th>Código</th>
+                                    <th>Produto</th>
+                                    <th class="sortable" data-sort="quantidade">
+                                        Qtd
+                                        <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path d="M8 9l4-4 4 4M16 15l-4 4-4-4"/>
+                                        </svg>
+                                    </th>
+                                    <th class="sortable" data-sort="preco_unitario">
+                                        Preço Unit.
+                                        <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path d="M8 9l4-4 4 4M16 15l-4 4-4-4"/>
+                                        </svg>
+                                    </th>
+                                    <th class="sortable" data-sort="total">
+                                        Total
+                                        <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <path d="M8 9l4-4 4 4M16 15l-4 4-4-4"/>
+                                        </svg>
+                                    </th>
+                                    <th>Status</th>
+                                    <th class="actions-header">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTableBody">
+                                <!-- Sales will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container" id="paginationContainer">
+                    <div class="pagination-info">
+                        <span id="paginationInfo">Página 1 de 1</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <button class="pagination-btn" id="prevPageBtn" onclick="changePage(-1)" disabled>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M15 18l-6-6 6-6"/>
+                            </svg>
+                            Anterior
+                        </button>
+                        <div class="pagination-pages" id="paginationPages">
+                            <!-- Page numbers will be generated here -->
+                        </div>
+                        <button class="pagination-btn" id="nextPageBtn" onclick="changePage(1)" disabled>
+                            Próxima
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M9 18l6-6-6-6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="modal-overlay" id="filterModal">
+        <div class="modal-container filter-modal">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                    </svg>
+                    <span>Filtros</span>
+                </div>
+                <button class="close-modal" onclick="closeFilterModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Período</label>
+                        <select id="periodFilter" class="filter-select">
+                            <option value="">Todos os períodos</option>
+                            <option value="today">Hoje</option>
+                            <option value="yesterday">Ontem</option>
+                            <option value="week">Última semana</option>
+                            <option value="month">Último mês</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group date-range" id="customDateRange" style="display: none;">
+                        <label>Data Inicial</label>
+                        <input type="date" id="startDate" class="filter-input">
+                    </div>
+                    
+                    <div class="filter-group date-range" id="customDateRangeEnd" style="display: none;">
+                        <label>Data Final</label>
+                        <input type="date" id="endDate" class="filter-input">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Buscar Produto</label>
+                        <div class="search-input-container">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                            <input type="text" id="searchInput" placeholder="Nome ou código do produto..." class="filter-input">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Ordenar por</label>
+                        <select id="sortFilter" class="filter-select">
+                            <option value="data_desc">Mais recentes primeiro</option>
+                            <option value="data">Mais antigas primeiro</option>
+                            <option value="total_desc">Maior valor</option>
+                            <option value="total">Menor valor</option>
+                            <option value="quantidade_desc">Maior quantidade</option>
+                            <option value="quantidade">Menor quantidade</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="clearAllFilters()">Limpar Filtros</button>
+                <button class="btn-primary" onclick="applyFilters()">Aplicar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sale Details Modal -->
+    <div class="modal-overlay" id="saleModal">
+        <div class="modal-container" style="max-width: 900px;">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="modal-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                    </div>
+                    <span id="modalTitle">Detalhes da Venda</span>
+                </div>
+                <button class="close-modal" onclick="salesModalManager.closeSaleModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div id="modalBody">
+                    <!-- Sale details will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-actions">
+                <!-- Actions will be updated dynamically -->
+                <button class="btn-secondary" onclick="salesModalManager.closeSaleModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="header.js"></script>
+    <script src="ultimas_vendas.js"></script>
+    <script src="ultimas_vendas_modal.js"></script>
+</body>
+</html>

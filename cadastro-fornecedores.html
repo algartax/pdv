@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBiz - Cadastrar Fornecedores</title>
+    <link rel="stylesheet" href="header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== VARIABLES ========== */
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d8;
+            --gray-400: #a1a1aa;
+            --gray-500: #71717a;
+            --gray-600: #52525b;
+            --gray-700: #3f3f46;
+            --gray-900: #18181b;
+            --white: #ffffff;
+            --radius: 0.5rem;
+            --radius-lg: 1rem;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========== BASE ========== */
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ========== PAGE HEADER ========== */
+        .page-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--gray-500);
+            font-size: 1.2rem;
+        }
+
+        /* ========== ADD FORNECEDOR SECTION ========== */
+        .add-fornecedor-form {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            background: var(--white);
+            color: var(--gray-900);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .add-button {
+            background: var(--primary);
+            border: none;
+            border-radius: var(--radius);
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            gap: 0.5rem;
+        }
+
+        .add-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .add-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .clear-button {
+            background: var(--gray-600);
+            border: none;
+            border-radius: var(--radius);
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            gap: 0.5rem;
+        }
+
+        .clear-button:hover {
+            background: var(--gray-700);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ========== FORNECEDORES LIST ========== */
+        .fornecedores-list {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .list-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .fornecedor-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1.5fr 2fr auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1.25rem;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 0.75rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .fornecedor-item:hover {
+            background: var(--white);
+            border-color: var(--gray-300);
+            box-shadow: var(--shadow);
+        }
+
+        .fornecedor-nome {
+            font-weight: 600;
+            color: var(--gray-900);
+            font-size: 1.1rem;
+        }
+
+        .fornecedor-telefone {
+            color: var(--gray-600);
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        .fornecedor-email {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+
+        .fornecedor-observacao {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .edit-button, .delete-button {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .edit-button {
+            color: var(--gray-500);
+        }
+
+        .edit-button:hover {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .delete-button {
+            color: var(--gray-400);
+        }
+
+        .delete-button:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .empty-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+        }
+
+        .empty-description {
+            font-size: 1rem;
+        }
+
+        /* ========== LOADING STATES ========== */
+        .loading-spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--gray-500);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ========== NOTIFICATIONS ========== */
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10000;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            color: var(--white);
+            font-weight: 500;
+            max-width: 400px;
+            transform: translateX(100%);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .fornecedor-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                text-align: left;
+            }
+
+            .fornecedor-item > div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .item-actions {
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* ========== ANIMATION ========== */
+        .fornecedor-item {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== EDIT MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--gray-500);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="loading-text">SmartBiz</div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="header-background"></div>
+            <div class="header-container">
+                <!-- Logo -->
+                <div class="logo-section">
+                    <div class="logo-wrapper">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div class="logo-content">
+                            <div class="logo-title">SmartBiz</div>
+                            <div class="logo-subtitle">Point of Sale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation (gerada pelo JS) -->
+                <nav class="nav-menu" id="navMenu">
+                    <div class="nav-indicator"></div>
+                </nav>
+
+                <!-- User Section -->
+                <div class="user-section">
+                    <div class="notifications" data-count="3">
+                        <div class="notification-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="search-trigger">
+                        <div class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-info" id="userInfo">
+                        <div class="user-avatar" id="userAvatar">
+                            <div class="avatar-ring"></div>
+                            <span class="avatar-text">U</span>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">Usuário</div>
+                            <div class="user-status">Online</div>
+                        </div>
+                        <div class="user-menu-trigger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar">
+                                <span id="dropdownAvatar">U</span>
+                            </div>
+                            <div class="dropdown-info">
+                                <div class="dropdown-name" id="dropdownName">Usuário</div>
+                                <div class="dropdown-email" id="dropdownEmail">usuario@email.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                Perfil
+                            </a>
+                            <a href="#" class="dropdown-item logout" id="logoutBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16,17 21,12 16,7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Fornecedores</h1>
+                <p class="page-subtitle">Gerencie os fornecedores da sua empresa</p>
+            </div>
+
+            <!-- Add Fornecedor Form -->
+            <div class="add-fornecedor-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="nomeInput">Nome *</label>
+                        <input 
+                            type="text" 
+                            class="form-input" 
+                            id="nomeInput"
+                            placeholder="Nome do fornecedor"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="telefoneInput">Telefone</label>
+                        <input 
+                            type="tel" 
+                            class="form-input" 
+                            id="telefoneInput"
+                            placeholder="(00) 00000-0000"
+                            maxlength="15"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="emailInput">E-mail</label>
+                        <input 
+                            type="email" 
+                            class="form-input" 
+                            id="emailInput"
+                            placeholder="email@exemplo.com"
+                            maxlength="100"
+                        >
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label" for="observacaoInput">Observações</label>
+                        <textarea 
+                            class="form-input form-textarea" 
+                            id="observacaoInput"
+                            placeholder="Observações sobre o fornecedor (opcional)"
+                            maxlength="500"
+                        ></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="clear-button" id="clearButton">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                        </svg>
+                        Limpar
+                    </button>
+                    <button type="button" class="add-button" id="addButton" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Cadastrar Fornecedor
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fornecedores List -->
+            <div class="fornecedores-list">
+                <div class="list-header">
+                    <h2 class="list-title">Fornecedores Cadastrados</h2>
+                </div>
+                <div id="fornecedoresList">
+                    <div class="loading-item">
+                        <div class="loading-spinner"></div>
+                        &nbsp;&nbsp;Carregando fornecedores...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Fornecedor</h3>
+                <button class="modal-close" id="modalClose">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label" for="editNomeInput">Nome *</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="editNomeInput"
+                        placeholder="Nome do fornecedor"
+                        maxlength="100"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editTelefoneInput">Telefone</label>
+                    <input 
+                        type="tel" 
+                        class="form-input" 
+                        id="editTelefoneInput"
+                        placeholder="(00) 00000-0000"
+                        maxlength="15"
+                    >
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="editEmailInput">E-mail</label>
+                    <input 
+                        type="email" 
+                        class="form-input" 
+                        id="editEmailInput"
+                        placeholder="email@exemplo.com"
+                        maxlength="100"
+                    >
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label" for="editObservacaoInput">Observações</label>
+                    <textarea 
+                        class="form-input form-textarea" 
+                        id="editObservacaoInput"
+                        placeholder="Observações sobre o fornecedor (opcional)"
+                        maxlength="500"
+                    ></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="clear-button" id="modalCancel">
+                    Cancelar
+                </button>
+                <button type="button" class="add-button" id="modalSave">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17,21 17,13 7,13 7,21"/>
+                        <polyline points="7,3 7,8 15,8"/>
+                    </svg>
+                    Salvar Alterações
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="header.js"></script>
+    <script>
+        // ========== CONFIGURAÇÕES ==========
+        const SUPABASE_URL = 'https://duupmyhbsvitadcnkchq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1dXBteWhic3ZpdGFkY25rY2hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc5MDU1MjUsImV4cCI6MjA2MzQ4MTUyNX0.bFqBc0rEEbZXBKfsK6onBuxm62FK2NHeW_oBm757wL0';
+
+        // ========== FORNECEDOR SYSTEM ==========
+        class FornecedorSystem {
+            constructor() {
+                this.nomeInput = document.getElementById('nomeInput');
+                this.telefoneInput = document.getElementById('telefoneInput');
+                this.emailInput = document.getElementById('emailInput');
+                this.observacaoInput = document.getElementById('observacaoInput');
+                this.addButton = document.getElementById('addButton');
+                this.clearButton = document.getElementById('clearButton');
+                this.fornecedoresList = document.getElementById('fornecedoresList');
+                
+                // Modal elements
+                this.editModal = document.getElementById('editModal');
+                this.modalClose = document.getElementById('modalClose');
+                this.modalCancel = document.getElementById('modalCancel');
+                this.modalSave = document.getElementById('modalSave');
+                this.editNomeInput = document.getElementById('editNomeInput');
+                this.editTelefoneInput = document.getElementById('editTelefoneInput');
+                this.editEmailInput = document.getElementById('editEmailInput');
+                this.editObservacaoInput = document.getElementById('editObservacaoInput');
+                
+                this.currentUser = null;
+                this.supabase = null;
+                this.editingFornecedor = null;
+                
+                this.init();
+            }
+
+            async init() {
+                console.log('🚀 Inicializando sistema de fornecedores...');
+                
+                // Inicializar Supabase
+                await this.initSupabase();
+                
+                // Obter usuário
+                await this.getUserFromHeader();
+                
+                // Configurar eventos
+                this.setupEventListeners();
+                
+                // Carregar fornecedores
+                await this.loadFornecedores();
+            }
+
+            async initSupabase() {
+                try {
+                    if (typeof window.supabase !== 'undefined') {
+                        this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                        console.log('✅ Supabase inicializado para fornecedores');
+                    } else {
+                        throw new Error('Biblioteca Supabase não carregada');
+                    }
+                } catch (error) {
+                    console.error('❌ Erro ao inicializar Supabase:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                }
+            }
+
+            async getUserFromHeader() {
+                try {
+                    // 1. Tentar pegar usuário do header
+                    if (window.HeaderSystem && window.HeaderSystem.getCurrentUser) {
+                        const headerUser = window.HeaderSystem.getCurrentUser();
+                        if (headerUser && headerUser.id) {
+                            this.currentUser = headerUser;
+                            console.log('👤 Usuário do header:', headerUser.email);
+                            return;
+                        }
+                    }
+
+                    // 2. Tentar localStorage
+                    const userData = localStorage.getItem('smartbiz_user');
+                    if (userData) {
+                        const parsedUser = JSON.parse(userData);
+                        if (parsedUser && parsedUser.id) {
+                            this.currentUser = parsedUser;
+                            console.log('👤 Usuário do localStorage:', parsedUser.email);
+                            return;
+                        }
+                    }
+
+                    // 3. Tentar sessão do Supabase
+                    if (this.supabase) {
+                        const { data: { session }, error } = await this.supabase.auth.getSession();
+                        if (session?.user) {
+                            this.currentUser = session.user;
+                            console.log('👤 Usuário da sessão Supabase:', session.user.email);
+                            return;
+                        }
+                    }
+
+                    // 4. Fallback desenvolvimento
+                    this.currentUser = {
+                        id: 'dev-user-' + Date.now(),
+                        email: 'dev@smartbiz.com'
+                    };
+                    console.log('⚠️ Usando usuário de desenvolvimento');
+                    
+                } catch (error) {
+                    console.error('❌ Erro ao obter usuário:', error);
+                    this.currentUser = {
+                        id: 'dev-user-' + Date.now(),
+                        email: 'dev@smartbiz.com'
+                    };
+                }
+            }
+
+            setupEventListeners() {
+                // Adicionar fornecedor
+                this.addButton.addEventListener('click', () => this.addFornecedor());
+                
+                // Limpar formulário
+                this.clearButton.addEventListener('click', () => this.clearForm());
+                
+                // Enter nos inputs
+                this.nomeInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.telefoneInput.focus();
+                    }
+                });
+
+                this.telefoneInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.emailInput.focus();
+                    }
+                });
+
+                this.emailInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.observacaoInput.focus();
+                    }
+                });
+
+                this.observacaoInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.addFornecedor();
+                    }
+                });
+
+                // Validação em tempo real
+                const validateForm = () => {
+                    const nomeValue = this.nomeInput.value.trim();
+                    const isValid = nomeValue.length >= 2;
+                    this.addButton.disabled = !isValid;
+                };
+
+                this.nomeInput.addEventListener('input', validateForm);
+                
+                // Formatação do telefone
+                this.telefoneInput.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    
+                    if (value.length > 11) {
+                        value = value.substring(0, 11);
+                    }
+                    
+                    if (value.length > 10) {
+                        value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    } else if (value.length > 6) {
+                        value = value.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                    } else if (value.length > 2) {
+                        value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+                    } else if (value.length > 0) {
+                        value = value.replace(/(\d{0,2})/, '($1');
+                    }
+                    
+                    e.target.value = value;
+                });
+
+                // Modal events
+                this.modalClose.addEventListener('click', () => this.closeModal());
+                this.modalCancel.addEventListener('click', () => this.closeModal());
+                this.modalSave.addEventListener('click', () => this.saveEdit());
+                
+                // Fechar modal com ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.editModal.classList.contains('show')) {
+                        this.closeModal();
+                    }
+                });
+
+                // Fechar modal clicando fora
+                this.editModal.addEventListener('click', (e) => {
+                    if (e.target === this.editModal) {
+                        this.closeModal();
+                    }
+                });
+
+                // Focus inicial
+                this.nomeInput.focus();
+            }
+
+            async loadFornecedores() {
+                if (!this.supabase) {
+                    console.error('❌ Supabase não inicializado');
+                    this.showEmptyState();
+                    return;
+                }
+
+                try {
+                    console.log('📥 Carregando fornecedores para usuário:', this.currentUser.id);
+                    
+                    const { data: fornecedores, error } = await this.supabase
+                        .from('fornecedores')
+                        .select('id, nome, telefone, email, observacao, user')
+                        .eq('user', this.currentUser.id)
+                        .order('id', { ascending: false });
+
+                    if (error) {
+                        console.error('❌ Erro ao carregar fornecedores:', error);
+                        
+                        if (error.message.includes('relation') && error.message.includes('does not exist')) {
+                            this.showNotification('Tabela fornecedores não encontrada', 'error');
+                        } else if (error.message.includes('column') && error.message.includes('does not exist')) {
+                            this.showNotification('Estrutura da tabela incorreta', 'error');
+                        } else {
+                            this.showNotification('Erro ao carregar: ' + error.message, 'error');
+                        }
+                        this.showEmptyState();
+                        return;
+                    }
+
+                    console.log('✅ Fornecedores carregados:', fornecedores?.length || 0);
+                    this.renderFornecedores(fornecedores || []);
+                    
+                } catch (error) {
+                    console.error('❌ Erro na consulta:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                    this.showEmptyState();
+                }
+            }
+
+            renderFornecedores(fornecedores) {
+                if (!fornecedores || fornecedores.length === 0) {
+                    this.showEmptyState();
+                    return;
+                }
+
+                const items = fornecedores.map(fornecedor => `
+                    <div class="fornecedor-item">
+                        <div class="fornecedor-nome">${this.escapeHtml(fornecedor.nome)}</div>
+                        <div class="fornecedor-telefone">${this.escapeHtml(fornecedor.telefone || '-')}</div>
+                        <div class="fornecedor-email">${this.escapeHtml(fornecedor.email || '-')}</div>
+                        <div class="fornecedor-observacao" title="${this.escapeHtml(fornecedor.observacao || '')}">
+                            ${this.escapeHtml(fornecedor.observacao || '-')}
+                        </div>
+                        <div class="item-actions">
+                            <button 
+                                class="edit-button" 
+                                onclick="fornecedorSystem.editFornecedor(${fornecedor.id})"
+                                title="Editar fornecedor"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                </svg>
+                            </button>
+                            <button 
+                                class="delete-button" 
+                                onclick="fornecedorSystem.deleteFornecedor(${fornecedor.id})"
+                                title="Excluir fornecedor"
+                            >
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                    <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                    <line x1="10" y1="11" x2="10" y2="17"/>
+                                    <line x1="14" y1="11" x2="14" y2="17"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                this.fornecedoresList.innerHTML = items;
+            }
+
+            showEmptyState() {
+                this.fornecedoresList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <div class="empty-title">Nenhum fornecedor encontrado</div>
+                        <div class="empty-description">Cadastre seu primeiro fornecedor</div>
+                    </div>
+                `;
+            }
+
+            async addFornecedor() {
+                if (!this.supabase) {
+                    this.showNotification('Conexão não disponível', 'error');
+                    return;
+                }
+
+                const nomeValue = this.nomeInput.value.trim();
+                const telefoneValue = this.telefoneInput.value.trim();
+                const emailValue = this.emailInput.value.trim();
+                const observacaoValue = this.observacaoInput.value.trim();
+                
+                if (!nomeValue) {
+                    this.showNotification('Digite o nome do fornecedor', 'error');
+                    this.nomeInput.focus();
+                    return;
+                }
+
+                if (nomeValue.length < 2) {
+                    this.showNotification('Nome deve ter pelo menos 2 caracteres', 'error');
+                    this.nomeInput.focus();
+                    return;
+                }
+
+                // Validar email se fornecido
+                if (emailValue && !this.isValidEmail(emailValue)) {
+                    this.showNotification('E-mail inválido', 'error');
+                    this.emailInput.focus();
+                    return;
+                }
+
+                try {
+                    this.setLoadingState(true);
+                    
+                    console.log('💾 Salvando fornecedor:', nomeValue, 'para usuário:', this.currentUser.id);
+
+                    const { data, error } = await this.supabase
+                        .from('fornecedores')
+                        .insert([
+                            {
+                                nome: nomeValue,
+                                telefone: telefoneValue || null,
+                                email: emailValue || null,
+                                observacao: observacaoValue || null,
+                                user: this.currentUser.id
+                            }
+                        ])
+                        .select();
+
+                    if (error) {
+                        console.error('❌ Erro ao salvar fornecedor:', error);
+                        
+                        if (error.message.includes('duplicate key')) {
+                            this.showNotification('Este fornecedor já existe', 'error');
+                        } else if (error.message.includes('row-level security')) {
+                            this.showNotification('Erro de permissão - verifique se você está logado', 'error');
+                        } else if (error.message.includes('relation') && error.message.includes('does not exist')) {
+                            this.showNotification('Tabela fornecedores não existe', 'error');
+                        } else {
+                            this.showNotification('Erro: ' + error.message, 'error');
+                        }
+                        return;
+                    }
+
+                    console.log('✅ Fornecedor salvo:', data);
+                    this.showNotification('Fornecedor cadastrado!', 'success');
+                    
+                    // Limpar formulário
+                    this.clearForm();
+                    
+                    // Recarregar lista
+                    await this.loadFornecedores();
+                    
+                    // Focus de volta no primeiro input
+                    this.nomeInput.focus();
+                    
+                } catch (error) {
+                    console.error('❌ Erro na inserção:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                } finally {
+                    this.setLoadingState(false);
+                }
+            }
+
+            async editFornecedor(fornecedorId) {
+                if (!this.supabase) {
+                    this.showNotification('Conexão não disponível', 'error');
+                    return;
+                }
+
+                try {
+                    console.log('📝 Carregando dados do fornecedor:', fornecedorId);
+
+                    const { data: fornecedor, error } = await this.supabase
+                        .from('fornecedores')
+                        .select('*')
+                        .eq('id', fornecedorId)
+                        .eq('user', this.currentUser.id)
+                        .single();
+
+                    if (error) {
+                        console.error('❌ Erro ao carregar fornecedor:', error);
+                        this.showNotification('Erro ao carregar fornecedor', 'error');
+                        return;
+                    }
+
+                    // Preencher modal com dados
+                    this.editingFornecedor = fornecedor;
+                    this.editNomeInput.value = fornecedor.nome || '';
+                    this.editTelefoneInput.value = fornecedor.telefone || '';
+                    this.editEmailInput.value = fornecedor.email || '';
+                    this.editObservacaoInput.value = fornecedor.observacao || '';
+
+                    // Mostrar modal
+                    this.showModal();
+
+                } catch (error) {
+                    console.error('❌ Erro ao carregar dados:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                }
+            }
+
+            async saveEdit() {
+                if (!this.supabase || !this.editingFornecedor) {
+                    this.showNotification('Erro interno', 'error');
+                    return;
+                }
+
+                const nomeValue = this.editNomeInput.value.trim();
+                const telefoneValue = this.editTelefoneInput.value.trim();
+                const emailValue = this.editEmailInput.value.trim();
+                const observacaoValue = this.editObservacaoInput.value.trim();
+                
+                if (!nomeValue) {
+                    this.showNotification('Digite o nome do fornecedor', 'error');
+                    this.editNomeInput.focus();
+                    return;
+                }
+
+                if (nomeValue.length < 2) {
+                    this.showNotification('Nome deve ter pelo menos 2 caracteres', 'error');
+                    this.editNomeInput.focus();
+                    return;
+                }
+
+                // Validar email se fornecido
+                if (emailValue && !this.isValidEmail(emailValue)) {
+                    this.showNotification('E-mail inválido', 'error');
+                    this.editEmailInput.focus();
+                    return;
+                }
+
+                try {
+                    this.setModalLoadingState(true);
+                    
+                    console.log('💾 Atualizando fornecedor:', this.editingFornecedor.id);
+
+                    const { data, error } = await this.supabase
+                        .from('fornecedores')
+                        .update({
+                            nome: nomeValue,
+                            telefone: telefoneValue || null,
+                            email: emailValue || null,
+                            observacao: observacaoValue || null
+                        })
+                        .eq('id', this.editingFornecedor.id)
+                        .eq('user', this.currentUser.id)
+                        .select();
+
+                    if (error) {
+                        console.error('❌ Erro ao atualizar fornecedor:', error);
+                        this.showNotification('Erro ao atualizar: ' + error.message, 'error');
+                        return;
+                    }
+
+                    console.log('✅ Fornecedor atualizado:', data);
+                    this.showNotification('Fornecedor atualizado!', 'success');
+                    
+                    // Fechar modal
+                    this.closeModal();
+                    
+                    // Recarregar lista
+                    await this.loadFornecedores();
+                    
+                } catch (error) {
+                    console.error('❌ Erro na atualização:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                } finally {
+                    this.setModalLoadingState(false);
+                }
+            }
+
+            async deleteFornecedor(fornecedorId) {
+                if (!confirm('Excluir este fornecedor? Esta ação não pode ser desfeita.')) {
+                    return;
+                }
+
+                if (!this.supabase) {
+                    this.showNotification('Conexão não disponível', 'error');
+                    return;
+                }
+
+                try {
+                    console.log('🗑️ Excluindo fornecedor:', fornecedorId);
+
+                    const { error } = await this.supabase
+                        .from('fornecedores')
+                        .delete()
+                        .eq('id', fornecedorId)
+                        .eq('user', this.currentUser.id);
+
+                    if (error) {
+                        console.error('❌ Erro ao excluir:', error);
+                        this.showNotification('Erro ao excluir fornecedor', 'error');
+                        return;
+                    }
+
+                    console.log('✅ Fornecedor excluído');
+                    this.showNotification('Fornecedor excluído!', 'success');
+                    
+                    // Recarregar lista
+                    await this.loadFornecedores();
+                    
+                } catch (error) {
+                    console.error('❌ Erro na exclusão:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                }
+            }
+
+            clearForm() {
+                this.nomeInput.value = '';
+                this.telefoneInput.value = '';
+                this.emailInput.value = '';
+                this.observacaoInput.value = '';
+                this.addButton.disabled = true;
+                this.nomeInput.focus();
+            }
+
+            showModal() {
+                this.editModal.classList.add('show');
+                this.editNomeInput.focus();
+            }
+
+            closeModal() {
+                this.editModal.classList.remove('show');
+                this.editingFornecedor = null;
+            }
+
+            setLoadingState(loading) {
+                this.addButton.disabled = loading;
+                this.clearButton.disabled = loading;
+                this.nomeInput.disabled = loading;
+                this.telefoneInput.disabled = loading;
+                this.emailInput.disabled = loading;
+                this.observacaoInput.disabled = loading;
+                
+                if (loading) {
+                    this.addButton.innerHTML = '<div class="loading-spinner"></div> Cadastrando...';
+                } else {
+                    this.addButton.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Cadastrar Fornecedor
+                    `;
+                }
+            }
+
+            setModalLoadingState(loading) {
+                this.modalSave.disabled = loading;
+                this.modalCancel.disabled = loading;
+                this.editNomeInput.disabled = loading;
+                this.editTelefoneInput.disabled = loading;
+                this.editEmailInput.disabled = loading;
+                this.editObservacaoInput.disabled = loading;
+                
+                if (loading) {
+                    this.modalSave.innerHTML = '<div class="loading-spinner"></div> Salvando...';
+                } else {
+                    this.modalSave.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17,21 17,13 7,13 7,21"/>
+                            <polyline points="7,3 7,8 15,8"/>
+                        </svg>
+                        Salvar Alterações
+                    `;
+                }
+            }
+
+            isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            showNotification(message, type = 'info') {
+                // Remove notification anterior
+                document.querySelectorAll('.notification').forEach(n => n.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Show notification
+                setTimeout(() => notification.classList.add('show'), 100);
+                
+                // Hide notification
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+        }
+
+        // ========== INITIALIZATION ==========
+        let fornecedorSystem;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Aguardar header estar completamente carregado
+            setTimeout(() => {
+                fornecedorSystem = new FornecedorSystem();
+            }, 2000);
+        });
+
+        console.log('🏢 Sistema de fornecedores carregado!');
+    </script>
+</body>
+</html>

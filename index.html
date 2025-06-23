@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBiz - Login</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-image">
+            <div class="brand">
+                <h1>SmartBiz</h1>
+                <p>Sistema inteligente para pequenas empresas</p>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="feature-text">
+                        <h3>Análise de Desempenho</h3>
+                        <p>Monitore seu negócio em tempo real</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-users"></i>
+                    <div class="feature-text">
+                        <h3>Gestão de Clientes</h3>
+                        <p>Centralize todas as informações</p>
+                    </div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div class="feature-text">
+                        <h3>100% Responsivo</h3>
+                        <p>Acesse de qualquer dispositivo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-form">
+            <h2>Bem-vindo(a) de volta!</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" class="form-control" placeholder="Seu e-mail" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" class="form-control" placeholder="Sua senha" required>
+                </div>
+                <div class="forgot-password">
+                    <a href="#" id="forgotPassword">Esqueceu a senha?</a>
+                </div>
+                <button type="submit" class="btn btn-primary">Entrar no Sistema</button>
+            </form>
+            <div class="login-options">
+                <p>Ou continue com</p>
+                <div class="social-login">
+                    
+                </div>
+                <div class="register-link">
+                    Ainda não tem uma conta? <a href="#" id="createAccount">Criar conta</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="supabase.js"></script>
+    <script src="autenticar.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

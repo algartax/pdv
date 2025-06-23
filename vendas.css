@@ -1,0 +1,816 @@
+:root {
+    --p: #000; --s: #22c55e; --e: #ef4444; --w: #fff; --g1: #f5f5f5; --g2: #e5e5e5; 
+    --g5: #71717a; --g6: #52525b; --g9: #18181b; --sh: 0 4px 6px -1px rgb(0 0 0/.1); 
+    --r: .75rem; --t: .3s ease; --gp: linear-gradient(135deg,#000,#434343);
+    --gs: linear-gradient(135deg,#10b981,#059669);
+    --ge: linear-gradient(135deg,#ef4444,#dc2626);
+    --spacing: 0.4cm; --warning: #f59e0b; --info: #3b82f6;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* ========== LAYOUT PRINCIPAL ========== */
+.main-content{
+    height:calc(100vh - 72px); background:linear-gradient(135deg,#f1f5f9,#e2e8f0);
+    padding:var(--spacing); overflow:hidden; display:flex; flex-direction:column;
+}
+
+.container{
+    max-width:100vw; margin:0; padding:0 var(--spacing); height:100%;
+    display:flex; flex-direction:column; flex:1; min-height:0;
+}
+
+/* ========== HEADER COMPACTO ========== */
+.page-header{
+    display:flex; justify-content:space-between; align-items:center; background:var(--w);
+    padding:.5rem .8rem; border-radius:var(--r); box-shadow:var(--sh);
+    margin-bottom:var(--spacing); flex-shrink:0; min-height:50px;
+}
+
+.page-title{display:flex;align-items:center;gap:.8rem}
+.title-icon{
+    width:2rem;height:2rem;background:var(--gp);border-radius:var(--r);
+    display:flex;align-items:center;justify-content:center;color:var(--w)
+}
+.title-icon svg{width:1rem;height:1rem}
+.page-title h1{font-size:1.3rem;font-weight:700;color:var(--g9)}
+.page-title p{font-size:.8rem;color:var(--g5);margin-top:.2rem}
+
+.btn-secondary{
+    display:flex;align-items:center;gap:.4rem;padding:.6rem .8rem;
+    background:var(--w);border:1px solid var(--g2);border-radius:var(--r);
+    color:var(--g6);font-weight:500;font-size:.8rem;cursor:pointer;transition:var(--t)
+}
+.btn-secondary:hover{background:var(--g1);transform:translateY(-1px)}
+.btn-secondary svg{width:.9rem;height:.9rem}
+
+/* ========== GRID OTIMIZADO ========== */
+.sale-grid{
+    display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr auto auto;
+    gap:var(--spacing); flex:1; min-height:0; height:100%;
+}
+
+.left-column{
+    grid-column:1; grid-row:1/4; display:flex; flex-direction:column;
+    gap:var(--spacing); min-height:0; height:100%;
+}
+
+.right-column-top{
+    grid-column:2; grid-row:1; display:grid; grid-template-columns:1fr 1fr;
+    gap:var(--spacing); min-height:0; height:auto; min-height:300px;
+}
+
+.right-column-middle{
+    grid-column:2; grid-row:2; display:flex; flex-direction:column;
+    gap:var(--spacing); min-height:0; height:auto; min-height:124px; max-height:142px;
+}
+
+.right-column-bottom{
+    grid-column:2; grid-row:3; min-height:75px; max-height:85px; margin-bottom:var(--spacing);
+}
+
+/* ========== CARDS ========== */
+.sale-card{
+    background:var(--w); border-radius:var(--r); box-shadow:var(--sh);
+    border:1px solid rgba(255,255,255,.8); overflow:hidden; display:flex;
+    flex-direction:column; position:relative; transition:var(--t); height:100%; min-height:0;
+}
+
+.sale-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:var(--gp);opacity:0;transition:var(--t)
+}
+.sale-card:hover{transform:translateY(-1px);box-shadow:0 6px 20px -5px rgb(0 0 0/.15)}
+.sale-card:hover::before{opacity:1}
+
+.card-header{
+    display:flex;align-items:center;gap:.4rem;padding:.4rem .6rem;
+    border-bottom:1px solid var(--g2);background:rgba(0,0,0,.02);flex-shrink:0;min-height:40px;
+}
+
+.card-icon{
+    width:1.3rem;height:1.3rem;background:var(--gp);border-radius:.3rem;
+    display:flex;align-items:center;justify-content:center;color:var(--w)
+}
+.card-icon svg{width:.7rem;height:.7rem}
+.card-header h3{font-size:.8rem;font-weight:600;color:var(--g9)}
+.header-info{display:flex;flex-direction:column;flex:1}
+.item-count{font-size:.65rem;color:var(--g5);font-weight:500}
+
+/* ========== ADICIONAR PRODUTO ========== */
+.left-column .sale-card:first-child{flex-shrink:0;min-height:160px;max-height:160px}
+
+.scanner-input{
+    padding:.5rem; flex:1; min-height:0; display:flex; flex-direction:column; gap:.4rem;
+}
+
+.input-group{display:flex;gap:.4rem;margin-bottom:.3rem}
+.input-group input{
+    flex:1;padding:.4rem .6rem;border:2px solid var(--g2);border-radius:.4rem;
+    font-size:.85rem;background:var(--w);transition:var(--t);height:36px
+}
+.input-group input:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 2px rgba(0,0,0,.1)}
+
+.scan-btn,.add-btn{
+    display:flex;align-items:center;justify-content:center;gap:.4rem;
+    padding:.4rem .6rem;border:none;border-radius:.4rem;font-weight:600;
+    font-size:.8rem;cursor:pointer;transition:var(--t);white-space:nowrap;height:36px;min-width:90px
+}
+.scan-btn{background:var(--gp);color:var(--w)}
+.add-btn{background:var(--gs);color:var(--w)}
+.scan-btn:hover,.add-btn:hover{transform:translateY(-1px);box-shadow:0 3px 8px -2px rgb(0 0 0/.25)}
+.scan-btn svg,.add-btn svg{width:.8rem;height:.8rem}
+
+.quick-add{display:flex;gap:.4rem;align-items:end}
+.quick-add input{
+    padding:.4rem .6rem;border:2px solid var(--g2);border-radius:.4rem;
+    font-size:.85rem;background:var(--w);transition:var(--t);height:36px
+}
+.quick-add input:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 2px rgba(0,0,0,.1)}
+.quick-add #productName{flex:2}
+.quick-add #productPrice{flex:1}
+.quick-add #productQty{width:55px;flex:none}
+
+/* ========== LISTA DE PRODUTOS ========== */
+.left-column .sale-card:last-child{flex:1;min-height:0;display:flex;flex-direction:column}
+
+.products-list{padding:.4rem;flex:1;overflow-y:auto;min-height:0}
+
+.empty-state{text-align:center;padding:2rem 1rem;color:var(--g5)}
+.empty-icon{
+    width:3rem;height:3rem;background:var(--g1);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin:0 auto .6rem;color:var(--g5)
+}
+.empty-icon svg{width:1.5rem;height:1.5rem}
+.empty-state p{font-size:.9rem;font-weight:500;margin-bottom:.3rem}
+.empty-state small{font-size:.8rem;color:var(--g5)}
+
+/* ========== ITEM DE PRODUTO MELHORADO ========== */
+.product-item{
+    display:grid;
+    grid-template-columns:1fr auto auto auto; /* Adicionada coluna para botão desconto */
+    align-items:center;
+    gap:0.6rem;
+    padding:1rem;
+    background:var(--w);
+    border:1px solid var(--g2);
+    border-radius:0.8rem;
+    margin-bottom:0.6rem;
+    transition:var(--t);
+    position:relative;
+    min-height:80px;
+}
+
+.product-item:hover{
+    border-color:var(--p);
+    box-shadow:0 8px 25px -8px rgb(0 0 0/.15);
+    transform:translateY(-2px);
+}
+
+.product-item.has-discount {
+    border-color:var(--warning);
+    background:linear-gradient(135deg,rgba(245,158,11,0.03),rgba(245,158,11,0.01));
+}
+
+.product-info{display:flex;flex-direction:column;gap:0.4rem;min-width:0}
+
+.product-header{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.3rem}
+
+.product-name{
+    font-weight:600; color:var(--g9); font-size:1rem; line-height:1.3;
+}
+
+.product-code{
+    font-size:0.75rem; color:var(--g5); font-family:'Monaco',monospace;
+    background:var(--g1); padding:0.2rem 0.5rem; border-radius:0.3rem;
+    font-weight:500; letter-spacing:0.5px;
+}
+
+.product-pricing{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap}
+
+.product-price{font-weight:700;color:var(--p);font-size:0.9rem}
+
+.product-price.original{
+    text-decoration:line-through; color:var(--g5); font-weight:500; font-size:0.8rem;
+}
+
+.product-discount-badge{
+    background:var(--warning); color:var(--w); font-size:0.65rem; font-weight:600;
+    padding:0.2rem 0.5rem; border-radius:0.3rem; display:none;
+    text-transform:uppercase; letter-spacing:0.5px;
+}
+
+.product-item.has-discount .product-discount-badge{display:inline-block}
+
+/* ========== BOTÃO DE DESCONTO POR ITEM - AMARELO ========== */
+.item-discount-btn{
+    width:1.6rem; height:1.6rem; background:linear-gradient(135deg,#fbbf24,#f59e0b); opacity: 0.6;
+    border:none; border-radius:0.4rem; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:var(--t); color:var(--w); box-shadow:0 2px 4px rgba(245,158,11,0.2);
+}
+
+.item-discount-btn:hover{
+    transform:translateY(-1px) scale(1.05); 
+    box-shadow:0 4px 12px rgba(245,158,11,0.3);
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+}
+
+.item-discount-btn svg{width:0.9rem;height:0.9rem}
+
+/* ========== CONTROLES DE PRODUTO ========== */
+.product-controls{display:flex;align-items:center;gap:.5rem}
+
+.qty-control{
+    display:flex;align-items:center;background:var(--g1);border-radius:.4rem;overflow:hidden;
+}
+
+.qty-btn{
+    width:1.7rem;height:1.7rem;display:flex;align-items:center;justify-content:center;
+    background:none;border:none;cursor:pointer;color:var(--g6);transition:var(--t)
+}
+.qty-btn:hover{background:var(--g2);color:var(--g9)}
+.qty-btn svg{width:.8rem;height:.8rem}
+
+.qty-input{
+    width:2.5rem;text-align:center;border:none;background:none;
+    font-weight:600;color:var(--g9);font-size:.8rem
+}
+
+.remove-btn{
+    width:1.7rem;height:1.7rem;display:flex;align-items:center;justify-content:center;
+    background:#fee2e2;color:var(--e);border:none;border-radius:.4rem;cursor:pointer;transition:var(--t)
+}
+.remove-btn:hover{background:var(--e);color:var(--w);transform:scale(1.05)}
+.remove-btn svg{width:.8rem;height:.8rem}
+
+/* ========== FORMULÁRIO DE CLIENTE OTIMIZADO - NOME EM CIMA, TEL+CPF EMBAIXO ========== */
+.customer-form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0.4rem;
+}
+
+.customer-form input{
+    padding:0.4rem 0.6rem;
+    border:2px solid var(--g2);
+    border-radius:0.4rem;
+    font-size:0.8rem;
+    background:var(--w);
+    transition:var(--t);
+    height:36px;
+}
+
+.customer-form input:focus{
+    outline:none;
+    border-color:var(--p);
+    box-shadow:0 0 0 2px rgba(0,0,0,.1);
+}
+
+/* Nome ocupa toda a largura (primeira linha) */
+.customer-form .customer-name-full{
+    grid-column:1 / -1;
+}
+
+/* Telefone e CPF lado a lado (segunda linha) */
+.customer-form .customer-phone{
+    grid-column:1;
+}
+
+.customer-form .customer-cpf{
+    grid-column:2;
+}
+
+/* ========== RESTO DOS ESTILOS ========== */
+.info-content{
+    padding:.6rem;flex:1;overflow-y:auto;display:flex;flex-direction:column;min-height:0;
+}
+
+.info-section{margin-bottom:.6rem}
+.info-section:last-child{margin-bottom:0}
+.info-section h4{font-size:.85rem;font-weight:600;color:var(--g9);margin-bottom:.4rem}
+
+.discount-form,.shipping-form{display:flex;flex-direction:column;gap:.3rem}
+
+.discount-toggle,.shipping-toggle{
+    display:flex;background:var(--g1);border-radius:.4rem;padding:.15rem
+}
+
+.toggle-btn{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:.25rem;
+    padding:.3rem;background:none;border:none;border-radius:.3rem;font-weight:600;
+    cursor:pointer;transition:var(--t);color:var(--g6);font-size:.75rem
+}
+.toggle-btn.active{background:var(--w);color:var(--p);box-shadow:var(--sh)}
+.toggle-btn svg{width:.7rem;height:.7rem}
+
+.discount-input input,.shipping-input input{
+    width:100%;padding:.4rem .6rem;border:2px solid var(--g2);border-radius:.4rem;
+    font-size:.8rem;background:var(--w);transition:var(--t);height:36px
+}
+.discount-input input:focus,.shipping-input input:focus{
+    outline:none;border-color:var(--p);box-shadow:0 0 0 2px rgba(0,0,0,.1)
+}
+
+/* ========== RESUMO ========== */
+.summary-details{
+    padding:.6rem;flex:1;display:flex;flex-direction:column;
+    justify-content:space-between;height:100%;min-height:0;
+}
+
+.summary-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:.4rem 0;border-bottom:1px solid var(--g2)
+}
+.summary-row:last-child{border-bottom:none}
+.summary-row span:first-child{font-weight:500;color:var(--g6);font-size:.85rem}
+.summary-row span:last-child{font-weight:600;color:var(--g9);font-size:.85rem}
+.discount-row span:last-child{color:var(--e)}
+.shipping-row.hidden{display:none}
+.summary-divider{height:1px;background:var(--g2);margin:.4rem 0}
+
+.total-row{
+    padding:.6rem;font-size:1.1rem;background:rgba(0,0,0,.02);
+    border-radius:.4rem;margin-top:.3rem
+}
+.total-row span{font-weight:700;color:var(--p)}
+
+/* ========== PAGAMENTO ========== */
+.payment-methods{
+    padding:.4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:.4rem;flex:1;height:100%
+}
+
+.payment-option{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;
+    padding:.3rem;background:var(--w);border:2px solid var(--g2);border-radius:.4rem;
+    cursor:pointer;transition:var(--t);min-height:28px;text-align:center;
+}
+.payment-option:hover{
+    border-color:var(--p);transform:translateY(-1px);box-shadow:0 3px 12px -4px rgb(0 0 0/.15)
+}
+.payment-option.selected{
+    border-color:var(--p);background:rgba(0,0,0,.03);box-shadow:0 2px 8px -3px rgba(0,0,0,.1)
+}
+.payment-option.selected .payment-icon{background:var(--gp);color:var(--w);transform:scale(1.05)}
+
+.payment-icon{
+    width:3rem;height:3rem;background:var(--g1);border-radius:.5rem;
+    display:flex;align-items:center;justify-content:center;color:var(--g6);
+    transition:var(--t);flex-shrink:0
+}
+.payment-icon svg{width:1.6rem;height:1.6rem}
+.payment-option span{font-weight:600;color:var(--g9);font-size:.65rem;line-height:1.1}
+
+/* ========== BOTÕES DE AÇÃO ========== */
+.action-buttons{
+    padding:.4rem;display:flex;gap:.4rem;height:100%;align-items:center
+}
+
+.btn-cancel,.btn-complete{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;
+    padding:.8rem 1rem;border:none;border-radius:.6rem;font-weight:700;
+    font-size:.9rem;cursor:pointer;transition:var(--t);height:55px
+}
+.btn-cancel{background:var(--ge);color:var(--w)}
+.btn-complete{background:var(--gs);color:var(--w)}
+.btn-cancel:hover,.btn-complete:hover{
+    transform:translateY(-1px);box-shadow:0 4px 15px -4px rgb(0 0 0/.25)
+}
+.btn-complete:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-cancel svg,.btn-complete svg{width:.9rem;height:.9rem}
+
+/* ========== MODAL OVERLAY ========== */
+/* ========== MODAL OVERLAY ========== */
+.modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);
+    display:flex;align-items:center;justify-content:center;z-index:1000;
+    opacity:0;visibility:hidden;transition:all 0.3s ease;
+}
+.modal-overlay.show{opacity:1;visibility:visible}
+
+/* ========== MODAL PADRÃO ========== */
+.modal{
+    background:var(--w);border-radius:0.75rem;
+    box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);
+    max-width:400px;width:85%;max-height:85vh;overflow-y:auto;
+    transform:scale(0.9) translateY(20px);transition:all 0.3s ease;
+}
+.modal-overlay.show .modal{transform:scale(1) translateY(0)}
+
+/* ========== MODAL DESCONTO POR ITEM - AMARELO ========== */
+.item-discount-modal{
+    max-width:400px;
+    border-top:4px solid var(--warning);
+}
+
+.item-discount-icon{
+    background:linear-gradient(135deg,#fbbf24,#f59e0b) !important;
+}
+
+.modal-header{
+    display:flex;align-items:center;gap:0.6rem;padding:0.8rem 1rem 0.6rem;border-bottom:1px solid var(--g2);
+}
+
+.modal-icon{
+    width:2rem;height:2rem;background:var(--gp);border-radius:0.6rem;
+    display:flex;align-items:center;justify-content:center;color:var(--w);
+}
+.modal-icon svg{width:1rem;height:1rem}
+
+.modal-title{flex:1}
+.modal-title h3{font-size:1rem;font-weight:700;color:var(--g9);margin-bottom:0.15rem}
+.modal-title p{font-size:0.8rem;color:var(--g5)}
+
+.modal-close{
+    width:1.8rem;height:1.8rem;display:flex;align-items:center;justify-content:center;
+    background:var(--g1);border:none;border-radius:0.4rem;cursor:pointer;transition:var(--t);color:var(--g6);
+}
+.modal-close:hover{background:var(--g2);color:var(--g9)}
+.modal-close svg{width:0.9rem;height:0.9rem}
+
+.modal-body{padding:0.8rem;max-height:70vh;overflow-y:auto}
+
+.form-section{margin-bottom:1rem}
+.form-section:last-child{margin-bottom:0}
+
+.form-label{
+    display:block;font-size:0.85rem;font-weight:600;color:var(--g9);margin-bottom:0.5rem;
+}
+
+.form-input,.form-select{
+    width:100%;padding:0.6rem 0.8rem;border:2px solid var(--g2);border-radius:0.4rem;
+    font-size:0.8rem;background:var(--w);transition:var(--t);margin-bottom:0.4rem;
+}
+.form-input:focus,.form-select:focus{
+    outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(34,197,94,0.1);
+}
+
+/* ========== FORMULÁRIO CLIENTE NO CREDIÁRIO - IGUAL PÁGINA PRINCIPAL ========== */
+.crediario-customer-form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0.4rem;
+}
+
+.crediario-customer-form input{
+    padding:0.4rem 0.6rem;
+    border:2px solid var(--g2);
+    border-radius:0.4rem;
+    font-size:0.8rem;
+    background:var(--w);
+    transition:var(--t);
+    height:36px;
+}
+
+.crediario-customer-form input:focus{
+    outline:none;
+    border-color:var(--p);
+    box-shadow:0 0 0 2px rgba(0,0,0,.1);
+}
+
+/* Nome ocupa toda a largura (primeira linha) */
+.crediario-customer-form .customer-name-full{
+    grid-column:1 / -1;
+}
+
+/* Telefone e CPF lado a lado (segunda linha) */
+.crediario-customer-form .customer-phone{
+    grid-column:1;
+}
+
+.crediario-customer-form .customer-cpf{
+    grid-column:2;
+}
+
+/* ========== TOGGLES ESPECÍFICOS DOS MODAIS ========== */
+.card-fee-toggle,
+.crediario-interest-toggle,
+.crediario-fee-toggle{
+    display:flex;
+    background:var(--g1);
+    border-radius:0.4rem;
+    padding:0.15rem;
+    margin-top:0.3rem;
+}
+
+.card-fee-toggle .toggle-btn,
+.crediario-interest-toggle .toggle-btn,
+.crediario-fee-toggle .toggle-btn{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:0.25rem;
+    padding:0.3rem;
+    background:none;
+    border:none;
+    border-radius:0.3rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:var(--t);
+    color:var(--g6);
+    font-size:0.75rem;
+}
+
+.card-fee-toggle .toggle-btn.active,
+.crediario-interest-toggle .toggle-btn.active,
+.crediario-fee-toggle .toggle-btn.active{
+    background:var(--w);
+    color:var(--p);
+    box-shadow:var(--sh);
+}
+
+/* ========== TOGGLE DE DESCONTO NO MODAL ========== */
+.discount-type-toggle{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0.4rem;
+    margin-bottom:0.6rem;
+}
+
+.discount-type-toggle .toggle-btn{
+    padding:0.6rem;
+    font-size:0.8rem;
+    border-radius:0.5rem;
+    gap:0.5rem;
+}
+
+/* ========== PREVIEW DO DESCONTO ========== */
+.discount-preview{
+    background:rgba(245,158,11,0.05);
+    border:1px solid rgba(245,158,11,0.2);
+    border-radius:0.6rem;
+    padding:0.8rem;
+    margin-top:0.6rem;
+    animation:fadeInUp 0.3s ease-out;
+}
+
+.preview-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:0.4rem;
+}
+
+.preview-row:last-child{margin-bottom:0}
+
+.preview-label{
+    font-size:0.8rem;
+    color:var(--g6);
+    font-weight:500;
+}
+
+.preview-value{
+    font-size:0.8rem;
+    font-weight:600;
+    color:var(--g9);
+}
+
+.preview-value.discount-value{
+    color:var(--warning);
+}
+
+.preview-divider{
+    height:1px;
+    background:rgba(245,158,11,0.2);
+    margin:0.6rem 0;
+}
+
+.total-row .preview-label,
+.total-row .preview-value{
+    font-size:0.9rem;
+    font-weight:700;
+    color:var(--p);
+}
+
+/* ========== GRID DE PARCELAS 12X ========== */
+.installments-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0.3rem;
+    margin-top:0.4rem;
+    max-height:200px;
+    overflow-y:auto;
+}
+
+.installment-option{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:0.4rem 0.2rem;
+    background:var(--g1);
+    border:2px solid var(--g2);
+    border-radius:0.4rem;
+    cursor:pointer;
+    transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
+    text-align:center;
+    min-height:2.5rem;
+}
+
+.installment-option:hover{
+    border-color:var(--p);
+    background:rgba(0,0,0,0.02);
+    transform:translateY(-1px);
+}
+
+.installment-option.selected{
+    border-color:var(--p);
+    background:rgba(34,197,94,0.1);
+    box-shadow:0 2px 8px rgba(34,197,94,0.2);
+}
+
+.installment-number{
+    font-size:0.8rem;
+    font-weight:700;
+    color:var(--g9);
+    line-height:1;
+}
+
+.installment-label{
+    font-size:0.6rem;
+    color:var(--g5);
+    margin-top:0.2rem;
+    line-height:1;
+}
+
+/* ========== RESUMO DE TAXAS MELHORADO ========== */
+.fee-info{
+    background:var(--g1);
+    border-radius:0.6rem;
+    padding:1rem;
+    margin-top:1rem;
+    border:1px solid var(--g2);
+    animation:fadeInUp 0.3s ease-out;
+}
+
+.fee-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:0.5rem;
+    padding:0.3rem 0;
+}
+
+.fee-row:last-child{
+    margin-bottom:0;
+}
+
+.fee-total-row{
+    border-top:1px solid var(--g2);
+    padding-top:0.5rem;
+    margin-top:0.3rem;
+    background:rgba(34,197,94,0.05);
+    margin-left:-1rem;
+    margin-right:-1rem;
+    padding-left:1rem;
+    padding-right:1rem;
+    border-radius:0 0 0.4rem 0.4rem;
+}
+
+.fee-label{
+    font-size:0.8rem;
+    color:var(--g6);
+    font-weight:500;
+}
+
+.fee-value{
+    font-size:0.8rem;
+    font-weight:600;
+    color:var(--g9);
+}
+
+.fee-total{
+    color:var(--p) !important;
+    font-size:0.9rem !important;
+    font-weight:700 !important;
+}
+
+/* ========== BOTÕES DO MODAL ========== */
+.modal-actions{
+    display:flex;gap:0.6rem;padding:0.6rem 0.8rem 0.8rem;border-top:1px solid var(--g2);
+}
+
+.btn-modal-cancel{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:0.4rem;
+    padding:0.6rem 0.8rem;background:var(--g1);border:1px solid var(--g2);
+    border-radius:0.4rem;color:var(--g6);font-weight:600;font-size:0.8rem;
+    cursor:pointer;transition:var(--t);
+}
+.btn-modal-cancel:hover{background:var(--g2);color:var(--g9)}
+
+.btn-modal-complete{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:0.4rem;
+    padding:0.6rem 0.8rem;background:var(--gs);border:none;border-radius:0.4rem;
+    color:var(--w);font-weight:700;font-size:0.8rem;cursor:pointer;transition:var(--t);
+}
+.btn-modal-complete:hover{transform:translateY(-1px);box-shadow:0 4px 15px -4px rgba(0,0,0,0.25)}
+.btn-modal-complete:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+/* Botão específico do desconto por item - amarelo */
+.item-discount-apply{
+    background:linear-gradient(135deg,#fbbf24,#f59e0b) !important;
+}
+.item-discount-apply:hover{
+    background:linear-gradient(135deg,#f59e0b,#d97706) !important;
+}
+
+.btn-modal-cancel svg,.btn-modal-complete svg{width:0.8rem;height:0.8rem}
+
+/* ========== ANIMAÇÕES ========== */
+@keyframes fadeInUp{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ========== RESPONSIVO DOS MODAIS ========== */
+@media (max-width:768px){
+    .modal{max-width:300px;margin:0.5rem}
+    .modal-header{padding:0.6rem 0.8rem 0.4rem}
+    .modal-body{padding:0.6rem}
+    .modal-actions{padding:0.4rem 0.6rem 0.6rem;flex-direction:column;gap:0.4rem}
+    .btn-modal-cancel,.btn-modal-complete{flex:none}
+    
+    .crediario-customer-form{
+        grid-template-columns:1fr;
+    }
+    
+    .crediario-customer-form .customer-name-full,
+    .crediario-customer-form .customer-phone,
+    .crediario-customer-form .customer-cpf{
+        grid-column:1;
+    }
+    
+    .installments-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:0.25rem;
+    }
+    
+    .installment-option{
+        padding:0.3rem 0.1rem;
+        min-height:2rem;
+    }
+    
+    .installment-number{
+        font-size:0.75rem;
+    }
+    
+    .installment-label{
+        font-size:0.55rem;
+    }
+    
+    .discount-type-toggle{grid-template-columns:1fr}
+    .discount-type-toggle .toggle-btn{padding:0.5rem}
+}
+
+@media (max-width:480px){
+    .modal{max-width:280px;margin:0.3rem}
+    
+    .installments-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:0.2rem;
+        max-height:150px;
+    }
+    
+    .installment-option{
+        padding:0.25rem;
+        min-height:1.8rem;
+    }
+    
+    .installment-number{
+        font-size:0.7rem;
+    }
+    
+    .installment-label{
+        display:none;
+    }
+}
+
+/* ========== SCROLLBAR DOS MODAIS ========== */
+.modal-body::-webkit-scrollbar,
+.installments-grid::-webkit-scrollbar{
+    width:4px;
+}
+
+.modal-body::-webkit-scrollbar-track,
+.installments-grid::-webkit-scrollbar-track{
+    background:var(--g1);
+    border-radius:2px;
+}
+
+.modal-body::-webkit-scrollbar-thumb,
+.installments-grid::-webkit-scrollbar-thumb{
+    background:var(--g4);
+    border-radius:2px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover,
+.installments-grid::-webkit-scrollbar-thumb:hover{
+    background:var(--g5);
+}

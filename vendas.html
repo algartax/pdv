@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBiz - Vendas</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="vendas.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="loading-text">SmartBiz</div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Header COMPLETO -->
+        <header class="header" id="header">
+            <div class="header-background"></div>
+            <div class="header-container">
+                <!-- Logo Section -->
+                <div class="logo-section">
+                    <div class="logo-wrapper">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div class="logo-content">
+                            <div class="logo-title">SmartBiz</div>
+                            <div class="logo-subtitle">Point of Sale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav-menu" id="navMenu">
+                    <div class="nav-indicator"></div>
+                </nav>
+
+                <!-- User Section -->
+                <div class="user-section">
+                    <!-- Notifications -->
+                    <div class="notifications" data-count="3">
+                        <div class="notification-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Search -->
+                    <div class="search-trigger">
+                        <div class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- User Info -->
+                    <div class="user-info" id="userInfo">
+                        <div class="user-avatar" id="userAvatar">
+                            <div class="avatar-ring"></div>
+                            <span class="avatar-text">U</span>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">Usuário</div>
+                            <div class="user-status">Online</div>
+                        </div>
+                        <div class="user-menu-trigger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- User Dropdown -->
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar">
+                                <span id="dropdownAvatar">U</span>
+                            </div>
+                            <div class="dropdown-info">
+                                <div class="dropdown-name" id="dropdownName">Usuário</div>
+                                <div class="dropdown-email" id="dropdownEmail">usuario@email.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                Perfil
+                            </a>
+                            <a href="#" class="dropdown-item logout" id="logoutBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16,17 21,12 16,7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title">
+                        <div class="title-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="9" cy="21" r="1"/>
+                                <circle cx="20" cy="21" r="1"/>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1>Nova Venda</h1>
+                            <p>Registre uma venda completa com múltiplos itens</p>
+                        </div>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn-secondary" id="clearSaleBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18l-2 13H5L3 6z"/>
+                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            Limpar Venda
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sale Grid -->
+                <div class="sale-grid">
+                    <!-- Left Column - Produtos -->
+                    <div class="left-column">
+                        <!-- Add Product -->
+                        <div class="sale-card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+                                        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+                                        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+                                        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+                                        <path d="M7 12h10"/>
+                                    </svg>
+                                </div>
+                                <h3>Adicionar Produto</h3>
+                            </div>
+                            <div class="scanner-input">
+                                <div class="input-group">
+                                    <input type="text" id="productCode" placeholder="Digite o código ou escaneie">
+                                    <button class="scan-btn" id="scanBtn">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                            <path d="M9 9h6v6H9z"/>
+                                        </svg>
+                                        Escanear
+                                    </button>
+                                </div>
+                                <div class="quick-add">
+                                    <input type="text" id="productName" placeholder="Nome do produto">
+                                    <input type="number" id="productPrice" placeholder="R$ 0,00" step="0.01">
+                                    <input type="number" id="productQty" placeholder="Qtd" value="1">
+                                    <button class="add-btn" id="addProductBtn">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="5" x2="12" y2="19"/>
+                                            <line x1="5" y1="12" x2="19" y2="12"/>
+                                        </svg>
+                                        Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Products List -->
+                        <div class="sale-card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M16 11V7a4 4 0 0 0-8 0v4M5 9h14l1 12H4L5 9z"/>
+                                    </svg>
+                                </div>
+                                <div class="header-info">
+                                    <h3>Itens da Venda</h3>
+                                    <span class="item-count" id="itemCount">0 itens</span>
+                                </div>
+                            </div>
+                            <div class="products-list" id="productsList">
+                                <div class="empty-state">
+                                    <div class="empty-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <path d="M8 12h8"/>
+                                            <path d="M12 8v8"/>
+                                        </svg>
+                                    </div>
+                                    <p>Nenhum produto adicionado</p>
+                                    <small>Escaneie ou digite o código do produto</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column Top - Info e Resumo -->
+                    <div class="right-column-top">
+                        <!-- Additional Info -->
+                        <div class="sale-card info-card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                    </svg>
+                                </div>
+                                <h3>Informações Adicionais</h3>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-section">
+                                    <h4>Cliente</h4>
+                                    <div class="customer-form">
+                                        <input type="text" id="customerName" placeholder="Nome completo do cliente" class="customer-name-full">
+                                        <input type="tel" id="customerPhone" placeholder="Telefone" class="customer-phone">
+                                        <input type="text" id="customerCpf" placeholder="CPF" class="customer-cpf">
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <h4>Desconto Geral</h4>
+                                    <div class="discount-form">
+                                        <div class="discount-toggle">
+                                            <button class="toggle-btn active" data-type="percent">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="19" y1="5" x2="5" y2="19"/>
+                                                    <circle cx="6.5" cy="6.5" r="2.5"/>
+                                                    <circle cx="17.5" cy="17.5" r="2.5"/>
+                                                </svg>
+                                                %
+                                            </button>
+                                            <button class="toggle-btn" data-type="value">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <line x1="12" y1="1" x2="12" y2="23"/>
+                                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                                </svg>
+                                                R$
+                                            </button>
+                                        </div>
+                                        <div class="discount-input">
+                                            <input type="number" id="discountValue" placeholder="0" min="0" step="0.01">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="info-section">
+                                    <h4>Frete</h4>
+                                    <div class="shipping-form">
+                                        <div class="shipping-toggle">
+                                            <button class="toggle-btn active" data-payer="cliente">Cliente</button>
+                                            <button class="toggle-btn" data-payer="lojista">Lojista</button>
+                                        </div>
+                                        <div class="shipping-input">
+                                            <input type="number" id="shippingValue" placeholder="R$ 0,00" min="0" step="0.01">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="sale-card summary-card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 3v18h18"/>
+                                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                                    </svg>
+                                </div>
+                                <h3>Resumo</h3>
+                            </div>
+                            <div class="summary-details">
+                                <div class="summary-row">
+                                    <span>Subtotal</span>
+                                    <span id="subtotalValue">R$ 0,00</span>
+                                </div>
+                                <div class="summary-row discount-row">
+                                    <span>Desconto Geral</span>
+                                    <span id="discountTotal">- R$ 0,00</span>
+                                </div>
+                                <div class="summary-row shipping-row">
+                                    <span>Frete</span>
+                                    <span id="shippingTotal">R$ 0,00</span>
+                                </div>
+                                <div class="summary-divider"></div>
+                                <div class="summary-row total-row">
+                                    <span>Total</span>
+                                    <span id="totalValue">R$ 0,00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column Middle - Pagamento CORRIGIDO -->
+                    <div class="right-column-middle">
+                        <!-- Payment Method -->
+                        <div class="sale-card payment-card">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                        <line x1="1" y1="10" x2="23" y2="10"/>
+                                    </svg>
+                                </div>
+                                <h3>Forma de Pagamento</h3>
+                            </div>
+                            <div class="payment-methods">
+                                <div class="payment-option" data-method="dinheiro">
+                                    <div class="payment-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <line x1="12" y1="1" x2="12" y2="23"/>
+                                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                        </svg>
+                                    </div>
+                                    <span>Dinheiro</span>
+                                </div>
+                                <div class="payment-option" data-method="pix">
+                                    <div class="payment-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                            <path d="M9 9h6v6H9z"/>
+                                        </svg>
+                                    </div>
+                                    <span>PIX</span>
+                                </div>
+                                <div class="payment-option" data-method="cartao">
+                                    <div class="payment-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                            <line x1="1" y1="10" x2="23" y2="10"/>
+                                        </svg>
+                                    </div>
+                                    <span>Cartão</span>
+                                </div>
+                                <div class="payment-option" data-method="crediario">
+                                    <div class="payment-icon">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                            <polyline points="14,2 14,8 20,8"/>
+                                            <line x1="16" y1="13" x2="8" y2="13"/>
+                                            <line x1="16" y1="17" x2="8" y2="17"/>
+                                            <polyline points="10,9 9,9 8,9"/>
+                                        </svg>
+                                    </div>
+                                    <span>Crediário</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column Bottom - Ações CORRIGIDO -->
+                    <div class="right-column-bottom">
+                        <div class="sale-card actions-card">
+                            <div class="action-buttons">
+                                <button class="btn-cancel" id="cancelSaleBtn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"/>
+                                        <line x1="6" y1="6" x2="18" y2="18"/>
+                                    </svg>
+                                    Cancelar
+                                </button>
+                                <button class="btn-complete" id="completeSaleBtn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="20,6 9,17 4,12"/>
+                                    </svg>
+                                    Finalizar Venda
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Cartão CORRIGIDO -->
+    <div class="modal-overlay" id="cardModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                        <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                </div>
+                <div class="modal-title">
+                    <h3>Pagamento no Cartão</h3>
+                    <p>Configure a máquina e parcelas</p>
+                </div>
+                <button class="modal-close" onclick="vendasSystem.closeModal('cardModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <label class="form-label">Máquina de Cartão</label>
+                    <select class="form-select" id="cardMachine">
+                        <option value="">Selecione a máquina</option>
+                        <option value="stone" data-fee-debit="2.5" data-fee-credit="3.5">Stone (Débito: 2,5% / Crédito: 3,5%)</option>
+                        <option value="mercadopago" data-fee-debit="2.8" data-fee-credit="3.8">Mercado Pago (Débito: 2,8% / Crédito: 3,8%)</option>
+                        <option value="pagseguro" data-fee-debit="2.7" data-fee-credit="3.7">PagSeguro (Débito: 2,7% / Crédito: 3,7%)</option>
+                        <option value="cielo" data-fee-debit="2.6" data-fee-credit="3.6">Cielo (Débito: 2,6% / Crédito: 3,6%)</option>
+                    </select>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Parcelas</label>
+                    <div class="installments-grid" id="installmentsGrid">
+                        <div class="installment-option" data-installments="1">
+                            <div class="installment-number">1x</div>
+                            <div class="installment-label">À vista</div>
+                        </div>
+                        <div class="installment-option" data-installments="2">
+                            <div class="installment-number">2x</div>
+                            <div class="installment-label">Sem juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="3">
+                            <div class="installment-number">3x</div>
+                            <div class="installment-label">Sem juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="4">
+                            <div class="installment-number">4x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="5">
+                            <div class="installment-number">5x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="6">
+                            <div class="installment-number">6x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="7">
+                            <div class="installment-number">7x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="8">
+                            <div class="installment-number">8x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="9">
+                            <div class="installment-number">9x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="10">
+                            <div class="installment-number">10x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="11">
+                            <div class="installment-number">11x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="12">
+                            <div class="installment-number">12x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Quem paga as taxas?</label>
+                    <div class="card-fee-toggle">
+                        <button class="toggle-btn active" data-payer="cliente">Cliente</button>
+                        <button class="toggle-btn" data-payer="loja">Loja</button>
+                    </div>
+                </div>
+
+                <div class="fee-info" id="cardFeeInfo" style="display: none;">
+                    <div class="fee-row">
+                        <span class="fee-label">Valor da venda:</span>
+                        <span class="fee-value" id="cardSaleValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row">
+                        <span class="fee-label">Taxa da máquina:</span>
+                        <span class="fee-value" id="cardFeeValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row">
+                        <span class="fee-label">Juros das parcelas:</span>
+                        <span class="fee-value" id="cardInterestValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row fee-total-row">
+                        <span class="fee-label">Total para o cliente:</span>
+                        <span class="fee-value" id="cardTotalClientValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row">
+                        <span class="fee-label fee-total">Total a receber (loja):</span>
+                        <span class="fee-value fee-total" id="cardTotalValue">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="vendasSystem.closeModal('cardModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Cancelar
+                </button>
+                <button class="btn-modal-complete" id="cardCompleteBtn" disabled onclick="vendasSystem.completeCardSale()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                    Finalizar Venda
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Crediário CORRIGIDO -->
+    <div class="modal-overlay" id="crediarioModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14,2 14,8 20,8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10,9 9,9 8,9"/>
+                    </svg>
+                </div>
+                <div class="modal-title">
+                    <h3>Crediário da Loja</h3>
+                    <p>Configure cliente e parcelas</p>
+                </div>
+                <button class="modal-close" onclick="vendasSystem.closeModal('crediarioModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <label class="form-label">Cliente</label>
+                    <div class="crediario-customer-form">
+                        <input type="text" class="form-input customer-name-full" id="crediarioCustomerName" placeholder="Nome completo do cliente">
+                        <input type="tel" class="form-input customer-phone" id="crediarioCustomerPhone" placeholder="Telefone">
+                        <input type="text" class="form-input customer-cpf" id="crediarioCustomerCpf" placeholder="CPF">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Parcelas</label>
+                    <div class="installments-grid" id="crediarioInstallmentsGrid">
+                        <div class="installment-option" data-installments="3">
+                            <div class="installment-number">1x</div>
+                            <div class="installment-label">Sem juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="2">
+                            <div class="installment-number">2x</div>
+                            <div class="installment-label">Sem juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="3">
+                            <div class="installment-number">3x</div>
+                            <div class="installment-label">Sem juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="4">
+                            <div class="installment-number">4x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="5">
+                            <div class="installment-number">5x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="6">
+                            <div class="installment-number">6x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="7">
+                            <div class="installment-number">7x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="8">
+                            <div class="installment-number">8x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="9">
+                            <div class="installment-number">9x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="10">
+                            <div class="installment-number">10x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="11">
+                            <div class="installment-number">11x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                        <div class="installment-option" data-installments="12">
+                            <div class="installment-number">12x</div>
+                            <div class="installment-label">Com juros</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Aplicar Juros?</label>
+                    <div class="crediario-interest-toggle">
+                        <button class="toggle-btn active" data-interest="no">Sem Juros</button>
+                        <button class="toggle-btn" data-interest="yes">Com Juros</button>
+                    </div>
+                    <div class="interest-input" id="interestInput" style="display: none; margin-top: 0.5rem;">
+                        <input type="number" class="form-input" id="interestRate" placeholder="Taxa de juros (%)" step="0.1" min="0">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Quem paga os juros?</label>
+                    <div class="crediario-fee-toggle">
+                        <button class="toggle-btn active" data-payer="cliente">Cliente</button>
+                        <button class="toggle-btn" data-payer="loja">Loja</button>
+                    </div>
+                </div>
+
+                <div class="fee-info" id="crediarioFeeInfo" style="display: none;">
+                    <div class="fee-row">
+                        <span class="fee-label">Valor da venda:</span>
+                        <span class="fee-value" id="crediarioSaleValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row">
+                        <span class="fee-label">Juros aplicados:</span>
+                        <span class="fee-value" id="crediarioInterestValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row fee-total-row">
+                        <span class="fee-label">Total para o cliente:</span>
+                        <span class="fee-value" id="crediarioTotalClientValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row">
+                        <span class="fee-label fee-total">Valor de cada parcela:</span>
+                        <span class="fee-value fee-total" id="crediarioInstallmentValue">R$ 0,00</span>
+                    </div>
+                    <div class="fee-row">
+                        <span class="fee-label fee-total">Total a receber (loja):</span>
+                        <span class="fee-value fee-total" id="crediarioTotalValue">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="vendasSystem.closeModal('crediarioModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Cancelar
+                </button>
+                <button class="btn-modal-complete" id="crediarioCompleteBtn" disabled onclick="vendasSystem.completeCrediarioSale()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                    Finalizar Venda
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Desconto por Item -->
+    <div class="modal-overlay" id="itemDiscountModal">
+        <div class="modal item-discount-modal">
+            <div class="modal-header">
+                <div class="modal-icon item-discount-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="5" x2="5" y2="19"/>
+                        <circle cx="6.5" cy="6.5" r="2.5"/>
+                        <circle cx="17.5" cy="17.5" r="2.5"/>
+                    </svg>
+                </div>
+                <div class="modal-title">
+                    <h3>Desconto do Item</h3>
+                    <p id="itemDiscountProductName">Produto selecionado</p>
+                </div>
+                <button class="modal-close" onclick="vendasSystem.closeModal('itemDiscountModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <label class="form-label">Tipo de Desconto</label>
+                    <div class="discount-type-toggle">
+                        <button class="toggle-btn active" data-type="percent" id="itemDiscountPercent">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="5" x2="5" y2="19"/>
+                                <circle cx="6.5" cy="6.5" r="2.5"/>
+                                <circle cx="17.5" cy="17.5" r="2.5"/>
+                            </svg>
+                            Percentual (%)
+                        </button>
+                        <button class="toggle-btn" data-type="value" id="itemDiscountValue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                            Valor (R$)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">Valor do Desconto</label>
+                    <input type="number" class="form-input" id="itemDiscountInput" placeholder="0" min="0" step="0.01">
+                </div>
+
+                <div class="discount-preview" id="itemDiscountPreview" style="display: none;">
+                    <div class="preview-row">
+                        <span class="preview-label">Preço original:</span>
+                        <span class="preview-value" id="originalPrice">R$ 0,00</span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="preview-label">Desconto:</span>
+                        <span class="preview-value discount-value" id="discountAmount">- R$ 0,00</span>
+                    </div>
+                    <div class="preview-divider"></div>
+                    <div class="preview-row total-row">
+                        <span class="preview-label">Novo preço:</span>
+                        <span class="preview-value" id="newPrice">R$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="vendasSystem.closeModal('itemDiscountModal')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Cancelar
+                </button>
+                <button class="btn-modal-complete item-discount-apply" id="itemDiscountApplyBtn" disabled onclick="vendasSystem.applyItemDiscount()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                    Aplicar Desconto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="header.js"></script>
+    <script src="vendas.js"></script>
+    <script src="vendas_modal.js"></script>
+    <script src="vendas_supa.js"></script>
+    <script src="vendas_finalizadas.js"></script>
+
+</body>
+</html>

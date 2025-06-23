@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBiz - Cadastrar Marcas</title>
+    <link rel="stylesheet" href="header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== VARIABLES ========== */
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d8;
+            --gray-400: #a1a1aa;
+            --gray-500: #71717a;
+            --gray-600: #52525b;
+            --gray-700: #3f3f46;
+            --gray-900: #18181b;
+            --white: #ffffff;
+            --radius: 0.5rem;
+            --radius-lg: 1rem;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========== BASE ========== */
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ========== PAGE HEADER ========== */
+        .page-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--gray-500);
+            font-size: 1.2rem;
+        }
+
+        /* ========== ADD MARCA SECTION ========== */
+        .add-marca-form {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            justify-content: center;
+        }
+
+        .add-button {
+            width: 8rem;
+            height: 8rem;
+            background: var(--gray-600);
+            border: none;
+            border-radius: var(--radius-lg);
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            transition: var(--transition);
+            flex-shrink: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .add-button:hover {
+            background: var(--gray-700);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .add-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .marca-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            background: var(--white);
+            color: var(--gray-900);
+            transition: var(--transition);
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .marca-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .marca-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        /* ========== MARCAS LIST ========== */
+        .marcas-list {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .marca-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 0.5rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .marca-item:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
+        }
+
+        .marca-name {
+            font-weight: 500;
+            color: var(--gray-900);
+            font-size: 1rem;
+        }
+
+        .delete-button {
+            width: 2rem;
+            height: 2rem;
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .delete-button:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .empty-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+        }
+
+        .empty-description {
+            font-size: 1rem;
+        }
+
+        /* ========== LOADING STATES ========== */
+        .loading-spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--gray-500);
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ========== NOTIFICATIONS ========== */
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10000;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            color: var(--white);
+            font-weight: 500;
+            max-width: 400px;
+            transform: translateX(100%);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .add-marca-form {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .add-button {
+                width: 8rem;
+                height: 8rem;
+                font-size: 2rem;
+            }
+
+            .marca-input {
+                width: 100%;
+                max-width: none;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* ========== ANIMATION ========== */
+        .marca-item {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="loading-text">SmartBiz</div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="header-background"></div>
+            <div class="header-container">
+                <!-- Logo -->
+                <div class="logo-section">
+                    <div class="logo-wrapper">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div class="logo-content">
+                            <div class="logo-title">SmartBiz</div>
+                            <div class="logo-subtitle">Point of Sale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation (gerada pelo JS) -->
+                <nav class="nav-menu" id="navMenu">
+                    <div class="nav-indicator"></div>
+                </nav>
+
+                <!-- User Section -->
+                <div class="user-section">
+                    <div class="notifications" data-count="3">
+                        <div class="notification-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="search-trigger">
+                        <div class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-info" id="userInfo">
+                        <div class="user-avatar" id="userAvatar">
+                            <div class="avatar-ring"></div>
+                            <span class="avatar-text">U</span>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">Usuário</div>
+                            <div class="user-status">Online</div>
+                        </div>
+                        <div class="user-menu-trigger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar">
+                                <span id="dropdownAvatar">U</span>
+                            </div>
+                            <div class="dropdown-info">
+                                <div class="dropdown-name" id="dropdownName">Usuário</div>
+                                <div class="dropdown-email" id="dropdownEmail">usuario@email.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                Perfil
+                            </a>
+                            <a href="#" class="dropdown-item logout" id="logoutBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16,17 21,12 16,7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Marcas</h1>
+                <p class="page-subtitle">Gerencie as marcas dos seus produtos</p>
+            </div>
+
+            <!-- Add Marca Form -->
+            <div class="add-marca-form">
+                <input 
+                    type="text" 
+                    class="marca-input" 
+                    id="marcaInput"
+                    placeholder="Digite o nome da marca"
+                >
+                <button type="button" class="add-button" id="addButton">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="48" height="48">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Marcas List -->
+            <div class="marcas-list" id="marcasList">
+                <div class="loading-item">
+                    <div class="loading-spinner"></div>
+                    &nbsp;&nbsp;Carregando marcas...
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="header.js"></script>
+    <script>
+        // ========== CONFIGURAÇÕES ==========
+        const SUPABASE_URL = 'https://duupmyhbsvitadcnkchq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1dXBteWhic3ZpdGFkY25rY2hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc5MDU1MjUsImV4cCI6MjA2MzQ4MTUyNX0.bFqBc0rEEbZXBKfsK6onBuxm62FK2NHeW_oBm757wL0';
+
+        // ========== MARCA SYSTEM - CONEXÃO CORRIGIDA ==========
+        class MarcaSystem {
+            constructor() {
+                this.marcaInput = document.getElementById('marcaInput');
+                this.addButton = document.getElementById('addButton');
+                this.marcasList = document.getElementById('marcasList');
+                this.currentUser = null;
+                this.supabase = null;
+                
+                this.init();
+            }
+
+            async init() {
+                console.log('🚀 Inicializando sistema de marcas...');
+                
+                // Inicializar Supabase PRÓPRIO
+                await this.initSupabase();
+                
+                // Obter usuário do header
+                await this.getUserFromHeader();
+                
+                // Configurar eventos
+                this.setupEventListeners();
+                
+                // Carregar marcas
+                await this.loadMarcas();
+            }
+
+            async initSupabase() {
+                try {
+                    if (typeof window.supabase !== 'undefined') {
+                        this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                        console.log('✅ Supabase inicializado para marcas');
+                    } else {
+                        throw new Error('Biblioteca Supabase não carregada');
+                    }
+                } catch (error) {
+                    console.error('❌ Erro ao inicializar Supabase:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                }
+            }
+
+            async getUserFromHeader() {
+                try {
+                    // 1. Tentar pegar usuário do header
+                    if (window.HeaderSystem && window.HeaderSystem.getCurrentUser) {
+                        const headerUser = window.HeaderSystem.getCurrentUser();
+                        if (headerUser && headerUser.id) {
+                            this.currentUser = headerUser;
+                            console.log('👤 Usuário do header:', headerUser.email);
+                            return;
+                        }
+                    }
+
+                    // 2. Tentar localStorage
+                    const userData = localStorage.getItem('smartbiz_user');
+                    if (userData) {
+                        const parsedUser = JSON.parse(userData);
+                        if (parsedUser && parsedUser.id) {
+                            this.currentUser = parsedUser;
+                            console.log('👤 Usuário do localStorage:', parsedUser.email);
+                            return;
+                        }
+                    }
+
+                    // 3. Tentar sessão do Supabase
+                    if (this.supabase) {
+                        const { data: { session }, error } = await this.supabase.auth.getSession();
+                        if (session?.user) {
+                            this.currentUser = session.user;
+                            console.log('👤 Usuário da sessão Supabase:', session.user.email);
+                            return;
+                        }
+                    }
+
+                    // 4. Fallback desenvolvimento
+                    this.currentUser = {
+                        id: 'dev-user-' + Date.now(),
+                        email: 'dev@smartbiz.com'
+                    };
+                    console.log('⚠️ Usando usuário de desenvolvimento');
+                    
+                } catch (error) {
+                    console.error('❌ Erro ao obter usuário:', error);
+                    this.currentUser = {
+                        id: 'dev-user-' + Date.now(),
+                        email: 'dev@smartbiz.com'
+                    };
+                }
+            }
+
+            setupEventListeners() {
+                // Adicionar marca
+                this.addButton.addEventListener('click', () => this.addMarca());
+                
+                // Enter no input
+                this.marcaInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.addMarca();
+                    }
+                });
+
+                // Validação em tempo real
+                this.marcaInput.addEventListener('input', () => {
+                    const hasValue = this.marcaInput.value.trim().length > 0;
+                    this.addButton.disabled = !hasValue;
+                });
+
+                // Focus inicial
+                this.marcaInput.focus();
+            }
+
+            async loadMarcas() {
+                if (!this.supabase) {
+                    console.error('❌ Supabase não inicializado');
+                    this.showEmptyState();
+                    return;
+                }
+
+                try {
+                    console.log('📥 Carregando marcas para usuário:', this.currentUser.id);
+                    
+                    const { data: marcas, error } = await this.supabase
+                        .from('marca')
+                        .select('id, marca, user')
+                        .eq('user', this.currentUser.id)
+                        .order('id', { ascending: false });
+
+                    if (error) {
+                        console.error('❌ Erro ao carregar marcas:', error);
+                        
+                        if (error.message.includes('relation') && error.message.includes('does not exist')) {
+                            this.showNotification('Tabela marca não encontrada', 'error');
+                        } else if (error.message.includes('column') && error.message.includes('does not exist')) {
+                            this.showNotification('Estrutura da tabela incorreta', 'error');
+                        } else {
+                            this.showNotification('Erro ao carregar: ' + error.message, 'error');
+                        }
+                        this.showEmptyState();
+                        return;
+                    }
+
+                    console.log('✅ Marcas carregadas:', marcas?.length || 0);
+                    this.renderMarcas(marcas || []);
+                    
+                } catch (error) {
+                    console.error('❌ Erro na consulta:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                    this.showEmptyState();
+                }
+            }
+
+            renderMarcas(marcas) {
+                if (!marcas || marcas.length === 0) {
+                    this.showEmptyState();
+                    return;
+                }
+
+                const items = marcas.map(marca => `
+                    <div class="marca-item">
+                        <span class="marca-name">${this.escapeHtml(marca.marca)}</span>
+                        <button 
+                            class="delete-button" 
+                            onclick="marcaSystem.deleteMarca(${marca.id})"
+                            title="Excluir marca"
+                        >
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                                <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                `).join('');
+
+                this.marcasList.innerHTML = items;
+            }
+
+            showEmptyState() {
+                this.marcasList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                            </svg>
+                        </div>
+                        <div class="empty-title">Nenhuma marca encontrada</div>
+                        <div class="empty-description">Adicione sua primeira marca</div>
+                    </div>
+                `;
+            }
+
+            async addMarca() {
+                if (!this.supabase) {
+                    this.showNotification('Conexão não disponível', 'error');
+                    return;
+                }
+
+                const marcaName = this.marcaInput.value.trim();
+                
+                if (!marcaName) {
+                    this.showNotification('Digite o nome da marca', 'error');
+                    return;
+                }
+
+                if (marcaName.length < 2) {
+                    this.showNotification('Nome deve ter pelo menos 2 caracteres', 'error');
+                    return;
+                }
+
+                try {
+                    this.setLoadingState(true);
+                    
+                    console.log('💾 Salvando marca:', marcaName, 'para usuário:', this.currentUser.id);
+
+                    const { data, error } = await this.supabase
+                        .from('marca')
+                        .insert([
+                            {
+                                marca: marcaName,
+                                user: this.currentUser.id
+                            }
+                        ])
+                        .select();
+
+                    if (error) {
+                        console.error('❌ Erro ao salvar marca:', error);
+                        
+                        if (error.message.includes('duplicate key')) {
+                            this.showNotification('Esta marca já existe', 'error');
+                        } else if (error.message.includes('row-level security')) {
+                            this.showNotification('Erro de permissão - verifique se você está logado', 'error');
+                        } else if (error.message.includes('relation') && error.message.includes('does not exist')) {
+                            this.showNotification('Tabela marca não existe', 'error');
+                        } else {
+                            this.showNotification('Erro: ' + error.message, 'error');
+                        }
+                        return;
+                    }
+
+                    console.log('✅ Marca salva:', data);
+                    this.showNotification('Marca adicionada!', 'success');
+                    
+                    // Limpar input
+                    this.marcaInput.value = '';
+                    this.addButton.disabled = true;
+                    
+                    // Recarregar lista
+                    await this.loadMarcas();
+                    
+                    // Focus de volta no input
+                    this.marcaInput.focus();
+                    
+                } catch (error) {
+                    console.error('❌ Erro na inserção:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                } finally {
+                    this.setLoadingState(false);
+                }
+            }
+
+            async deleteMarca(marcaId) {
+                if (!confirm('Excluir esta marca?')) {
+                    return;
+                }
+
+                if (!this.supabase) {
+                    this.showNotification('Conexão não disponível', 'error');
+                    return;
+                }
+
+                try {
+                    console.log('🗑️ Excluindo marca:', marcaId);
+
+                    const { error } = await this.supabase
+                        .from('marca')
+                        .delete()
+                        .eq('id', marcaId)
+                        .eq('user', this.currentUser.id);
+
+                    if (error) {
+                        console.error('❌ Erro ao excluir:', error);
+                        this.showNotification('Erro ao excluir marca', 'error');
+                        return;
+                    }
+
+                    console.log('✅ Marca excluída');
+                    this.showNotification('Marca excluída!', 'success');
+                    
+                    // Recarregar lista
+                    await this.loadMarcas();
+                    
+                } catch (error) {
+                    console.error('❌ Erro na exclusão:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                }
+            }
+
+            setLoadingState(loading) {
+                this.addButton.disabled = loading;
+                this.marcaInput.disabled = loading;
+                
+                if (loading) {
+                    this.addButton.innerHTML = '<div class="loading-spinner"></div>';
+                } else {
+                    this.addButton.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="48" height="48">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                    `;
+                }
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            showNotification(message, type = 'info') {
+                // Remove notification anterior
+                document.querySelectorAll('.notification').forEach(n => n.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Show notification
+                setTimeout(() => notification.classList.add('show'), 100);
+                
+                // Hide notification
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+        }
+
+        // ========== INITIALIZATION ==========
+        let marcaSystem;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Aguardar header estar completamente carregado
+            setTimeout(() => {
+                marcaSystem = new MarcaSystem();
+            }, 2000); // Mesma configuração do sistema de categorias
+        });
+
+        console.log('🏷️ Sistema de Marcas carregado!');
+    </script>
+</body>
+</html>

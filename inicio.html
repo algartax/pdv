@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SmartBiz</title>
+    <link rel="stylesheet" href="header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --text: #0a0a0a;
+            --text-secondary: #737373;
+            --border: #e5e5e5;
+            --primary: #000000;
+            --success: #16a34a;
+            --hover: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            margin-top: 72px; /* Espaço para o header */
+        }
+
+        /* Header */
+        .header {
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .greeting {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .date {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Today's Revenue */
+        .revenue-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: slideUp 0.6s ease 0.1s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .revenue-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .revenue-value {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+        }
+
+        .revenue-trend {
+            font-size: 0.875rem;
+            color: var(--success);
+            font-weight: 500;
+        }
+
+        .revenue-bg {
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #f0f0f0 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        /* Quick Actions */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .action-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            opacity: 0;
+            animation: slideUp 0.6s ease forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card:nth-child(1) { animation-delay: 0.2s; }
+        .action-card:nth-child(2) { animation-delay: 0.3s; }
+        .action-card:nth-child(3) { animation-delay: 0.4s; }
+        .action-card:nth-child(4) { animation-delay: 0.5s; }
+
+        .action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary);
+        }
+
+        .action-card.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .action-card.primary:hover {
+            background: #1a1a1a;
+            border-color: #1a1a1a;
+        }
+
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .action-card.primary .action-icon {
+            opacity: 1;
+        }
+
+        .action-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .action-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .action-card.primary .action-description {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Training Section */
+        .training-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            opacity: 0;
+            animation: slideUp 0.6s ease 0.6s forwards;
+        }
+
+        .training-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .social-link:hover {
+            background: var(--hover);
+            border-color: var(--primary);
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Welcome Animation */
+        .welcome-animation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: walkIn 1s ease 0.8s forwards;
+        }
+
+        .welcome-text {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 24px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .welcome-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: dotPulse 1.5s ease-in-out infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes walkIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .greeting {
+                font-size: 1.5rem;
+            }
+
+            .revenue-value {
+                font-size: 2rem;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .social-links {
+                flex-direction: column;
+            }
+
+            .welcome-animation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen do Header -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="loading-text">SmartBiz</div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <header class="header" id="header">
+            <div class="header-background"></div>
+            <div class="header-container">
+                <!-- Logo -->
+                <div class="logo-section">
+                    <div class="logo-wrapper">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div class="logo-content">
+                            <div class="logo-title">SmartBiz</div>
+                            <div class="logo-subtitle">Point of Sale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="nav-menu" id="navMenu">
+                    <div class="nav-indicator"></div>
+                </nav>
+
+                <!-- User Section -->
+                <div class="user-section">
+                    <div class="notifications" data-count="3">
+                        <div class="notification-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="search-trigger">
+                        <div class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-info" id="userInfo">
+                        <div class="user-avatar" id="userAvatar">
+                            <div class="avatar-ring"></div>
+                            <span class="avatar-text">U</span>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">Usuário</div>
+                            <div class="user-status">Online</div>
+                        </div>
+                        <div class="user-menu-trigger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar">
+                                <span id="dropdownAvatar">U</span>
+                            </div>
+                            <div class="dropdown-info">
+                                <div class="dropdown-name" id="dropdownName">Usuário</div>
+                                <div class="dropdown-email" id="dropdownEmail">usuario@email.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                Perfil
+                            </a>
+                            <a href="#" class="dropdown-item logout" id="logoutBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16,17 21,12 16,7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="greeting" id="greeting">Carregando...</h1>
+            <p class="date" id="date">...</p>
+        </header>
+
+        <!-- Today's Revenue -->
+        <div class="revenue-card">
+            <div class="revenue-bg"></div>
+            <div class="revenue-label">Vendas Hoje</div>
+            <div class="revenue-value">
+                <span id="revenue">R$ 0,00</span>
+                <span class="revenue-trend">↑ 12%</span>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="actions-grid">
+            <a href="vendas.html" class="action-card primary">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z"/>
+                </svg>
+                <h3 class="action-title">Nova Venda</h3>
+                <p class="action-description">Registrar venda rapidamente</p>
+            </a>
+
+            <a href="cadastro_produto.html" class="action-card">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 4v16m8-8H4"/>
+                </svg>
+                <h3 class="action-title">Adicionar Produto</h3>
+                <p class="action-description">Cadastrar novo item</p>
+            </a>
+
+            <a href="lista-produtos.html" class="action-card">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                </svg>
+                <h3 class="action-title">Estoque</h3>
+                <p class="action-description">Gerenciar produtos</p>
+            </a>
+
+            <a href="ultimas_vendas.html" class="action-card">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                <h3 class="action-title">Relatórios</h3>
+                <p class="action-description">Análise de vendas</p>
+            </a>
+        </div>
+
+        <!-- Training Section -->
+        <div class="training-section">
+            <h2 class="training-title">Treinamentos</h2>
+            <div class="social-links">
+                <a href="https://instagram.com" target="_blank" class="social-link">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                    Instagram
+                </a>
+                <a href="https://youtube.com" target="_blank" class="social-link">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.6C5.12 20 12 20 12 20s6.88 0 8.6-.4a2.78 2.78 0 001.94-2A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+                        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                    </svg>
+                    YouTube
+                </a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Welcome Animation -->
+    <div class="welcome-animation" id="welcomeAnimation">
+        <div class="welcome-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="welcome-text">Bem-vindo ao SmartBiz!</div>
+    </div>
+
+    <script src="header.js"></script>
+    <script>
+        class Dashboard {
+            constructor() {
+                // Aguardar o header carregar
+                this.waitForHeader();
+            }
+
+            waitForHeader() {
+                const checkHeader = setInterval(() => {
+                    const mainContent = document.getElementById('mainContent');
+                    if (mainContent && !mainContent.classList.contains('hidden')) {
+                        clearInterval(checkHeader);
+                        this.init();
+                    }
+                }, 100);
+            }
+
+            init() {
+                // Set greeting and date
+                this.updateGreeting();
+                this.updateDate();
+                
+                // Load sales data
+                this.loadSalesData();
+
+                // Hide welcome animation after 5 seconds
+                setTimeout(() => {
+                    const welcomeEl = document.getElementById('welcomeAnimation');
+                    if (welcomeEl) {
+                        welcomeEl.style.opacity = '0';
+                        setTimeout(() => welcomeEl.style.display = 'none', 300);
+                    }
+                }, 5000);
+
+                // Update date every minute
+                setInterval(() => this.updateDate(), 60000);
+            }
+
+            updateGreeting() {
+                const hour = new Date().getHours();
+                let greeting = 'Olá';
+                
+                if (hour < 12) greeting = 'Bom dia';
+                else if (hour < 18) greeting = 'Boa tarde';
+                else greeting = 'Boa noite';
+
+                // Get user name
+                try {
+                    const userData = localStorage.getItem('smartbiz_user');
+                    if (userData) {
+                        const user = JSON.parse(userData);
+                        const name = user.name || user.email?.split('@')[0] || '';
+                        if (name) greeting += `, ${name}`;
+                    }
+                } catch (e) {}
+
+                document.getElementById('greeting').textContent = greeting;
+            }
+
+            updateDate() {
+                const options = { 
+                    weekday: 'long', 
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                };
+                const date = new Date().toLocaleDateString('pt-BR', options);
+                document.getElementById('date').textContent = date;
+            }
+
+            async loadSalesData() {
+                // Simulate loading sales - in production would fetch from Supabase
+                const targetValue = 3524.80;
+                const element = document.getElementById('revenue');
+                const duration = 2000;
+                const start = 0;
+                const startTime = performance.now();
+
+                const animate = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Easing
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    const current = start + (targetValue * easeOut);
+                    
+                    element.textContent = `R$ ${current.toFixed(2).replace('.', ',')}`;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    }
+                };
+
+                requestAnimationFrame(animate);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            new Dashboard();
+        });
+    </script>
+</body>
+</html>

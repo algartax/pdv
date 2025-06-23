@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartBiz - Cadastrar Funcionários</title>
+    <link rel="stylesheet" href="header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========== VARIABLES ========== */
+        :root {
+            --primary: #22c55e;
+            --primary-dark: #16a34a;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d8;
+            --gray-400: #a1a1aa;
+            --gray-500: #71717a;
+            --gray-600: #52525b;
+            --gray-700: #3f3f46;
+            --gray-900: #18181b;
+            --white: #ffffff;
+            --blue-500: #3b82f6;
+            --yellow-500: #eab308;
+            --red-500: #ef4444;
+            --green-600: #16a34a;
+            --radius: 0.5rem;
+            --radius-lg: 1rem;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========== BASE ========== */
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ========== PAGE HEADER ========== */
+        .page-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--gray-500);
+            font-size: 1.2rem;
+        }
+
+        /* ========== EMPLOYEE FORM ========== */
+        .employee-form-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .regime-selector {
+            display: flex;
+            gap: 0.5rem;
+            background: var(--gray-100);
+            padding: 0.25rem;
+            border-radius: var(--radius);
+        }
+
+        .regime-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--gray-600);
+            border-radius: calc(var(--radius) - 0.25rem);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .regime-btn.active {
+            background: var(--white);
+            color: var(--gray-900);
+            box-shadow: var(--shadow);
+        }
+
+        .employee-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            padding: 0.875rem;
+            font-size: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            background: var(--white);
+            color: var(--gray-900);
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-600);
+            border: 1px solid var(--gray-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ========== EMPLOYEES SECTION ========== */
+        .employees-section {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .employees-list {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .search-box {
+            position: relative;
+            width: 250px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .employees-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .employee-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .employee-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .employee-card.selected {
+            border-color: var(--primary);
+            background: rgba(34, 197, 94, 0.02);
+        }
+
+        .employee-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .employee-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .employee-info h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .employee-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .employee-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid var(--gray-300);
+            background: var(--white);
+            color: var(--gray-600);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .action-btn:hover {
+            background: var(--gray-50);
+        }
+
+        .action-btn.edit:hover {
+            border-color: var(--blue-500);
+            color: var(--blue-500);
+        }
+
+        .action-btn.delete:hover {
+            border-color: var(--red-500);
+            color: var(--red-500);
+        }
+
+        /* ========== COST ANALYSIS PANEL ========== */
+        .cost-analysis {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            height: fit-content;
+        }
+
+        .analysis-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .analysis-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .selected-employee {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .cost-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cost-card {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .cost-card.warning {
+            border-left-color: var(--yellow-500);
+        }
+
+        .cost-card.danger {
+            border-left-color: var(--red-500);
+        }
+
+        .cost-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-bottom: 0.25rem;
+        }
+
+        .cost-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .cost-breakdown {
+            margin-top: 2rem;
+        }
+
+        .breakdown-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.875rem;
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            border-top: 2px solid var(--gray-300);
+        }
+
+        .regime-comparison {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .comparison-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .comparison-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-200);
+        }
+
+        .comparison-item.better {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: var(--green-600);
+        }
+
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray-500);
+        }
+
+        .empty-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+        }
+
+        .empty-description {
+            font-size: 1rem;
+        }
+
+        .no-selection {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray-500);
+        }
+
+        /* ========== LOADING STATES ========== */
+        .loading-spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            color: var(--gray-500);
+        }
+
+        /* ========== NOTIFICATIONS ========== */
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10000;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            color: var(--white);
+            font-weight: 500;
+            max-width: 400px;
+            transform: translateX(100%);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1200px) {
+            .employees-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .employee-form {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .form-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+
+        /* ========== ANIMATION ========== */
+        .employee-card {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="loading-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="loading-text">SmartBiz</div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="header-background"></div>
+            <div class="header-container">
+                <!-- Logo -->
+                <div class="logo-section">
+                    <div class="logo-wrapper">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <div class="logo-content">
+                            <div class="logo-title">SmartBiz</div>
+                            <div class="logo-subtitle">Point of Sale</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation (gerada pelo JS) -->
+                <nav class="nav-menu" id="navMenu">
+                    <div class="nav-indicator"></div>
+                </nav>
+
+                <!-- User Section -->
+                <div class="user-section">
+                    <div class="notifications" data-count="3">
+                        <div class="notification-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="search-trigger">
+                        <div class="search-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-info" id="userInfo">
+                        <div class="user-avatar" id="userAvatar">
+                            <div class="avatar-ring"></div>
+                            <span class="avatar-text">U</span>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name" id="userName">Usuário</div>
+                            <div class="user-status">Online</div>
+                        </div>
+                        <div class="user-menu-trigger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <div class="dropdown-avatar">
+                                <span id="dropdownAvatar">U</span>
+                            </div>
+                            <div class="dropdown-info">
+                                <div class="dropdown-name" id="dropdownName">Usuário</div>
+                                <div class="dropdown-email" id="dropdownEmail">usuario@email.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                                Perfil
+                            </a>
+                            <a href="#" class="dropdown-item logout" id="logoutBtn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                    <polyline points="16,17 21,12 16,7"/>
+                                    <line x1="21" y1="12" x2="9" y2="12"/>
+                                </svg>
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Funcionários & Análise de Custos</h1>
+                <p class="page-subtitle">Gerencie sua equipe e analise os custos trabalhistas</p>
+            </div>
+
+            <!-- Employee Form -->
+            <div class="employee-form-container">
+                <div class="form-header">
+                    <h2 class="form-title" id="formTitle">Cadastrar Funcionário</h2>
+                </div>
+
+                <form class="employee-form" id="employeeForm">
+                    <input type="hidden" id="employeeId">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="employeeName">Nome Completo *</label>
+                        <input 
+                            type="text" 
+                            class="form-input" 
+                            id="employeeName"
+                            placeholder="Digite o nome completo"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="employeeEmail">E-mail *</label>
+                        <input 
+                            type="email" 
+                            class="form-input" 
+                            id="employeeEmail"
+                            placeholder="funcionario@email.com"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="employeePhone">Telefone</label>
+                        <input 
+                            type="tel" 
+                            class="form-input" 
+                            id="employeePhone"
+                            placeholder="(11) 99999-9999"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="employeeSalary">Salário *</label>
+                        <input 
+                            type="text" 
+                            class="form-input" 
+                            id="employeeSalary"
+                            placeholder="R$ 0,00"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="employeeStartDate">Data de Admissão *</label>
+                        <input 
+                            type="date" 
+                            class="form-input" 
+                            id="employeeStartDate"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="clearForm">
+                            Limpar
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="saveButton">
+                            Salvar Funcionário
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Employees Section -->
+            <div class="employees-section">
+                <!-- Employees List -->
+                <div class="employees-list">
+                    <div class="section-header">
+                        <h2 class="section-title">Funcionários</h2>
+                        <div class="search-box">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                            <input 
+                                type="text" 
+                                class="search-input" 
+                                id="searchInput"
+                                placeholder="Buscar funcionário..."
+                            >
+                        </div>
+                    </div>
+
+                    <div class="employees-grid" id="employeesGrid">
+                        <div class="loading-card">
+                            <div class="loading-spinner"></div>
+                            &nbsp;&nbsp;Carregando funcionários...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cost Analysis Panel -->
+                <div class="cost-analysis">
+                    <div class="analysis-header">
+                        <h3 class="analysis-title">Análise de Custos</h3>
+                        <div class="selected-employee" id="selectedEmployeeName">
+                            Selecione um funcionário
+                        </div>
+                    </div>
+
+                    <div id="costAnalysisContent">
+                        <div class="no-selection">
+                            <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                            </svg>
+                            <p>Clique em um funcionário para ver a análise detalhada de custos trabalhistas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="header.js"></script>
+    <script>
+        // ========== CONFIGURAÇÕES ==========
+        const SUPABASE_URL = 'https://duupmyhbsvitadcnkchq.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR1dXBteWhic3ZpdGFkY25rY2hxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc5MDU1MjUsImV4cCI6MjA2MzQ4MTUyNX0.bFqBc0rEEbZXBKfsK6onBuxm62FK2NHeW_oBm757wL0';
+
+        // ========== TAXAS E CONFIGURAÇÕES TRABALHISTAS 2025 ==========
+        const TRABALHO_CONFIG = {
+            // Salário mínimo 2025
+            SALARIO_MINIMO: 1518.00,
+            
+            // INSS - Tabela 2025
+            INSS_FAIXAS: [
+                { max: 1518.00, aliquota: 0.075 },    // 7.5% até 1 SM
+                { max: 2531.29, aliquota: 0.09 },     // 9% de 1 a 1,67 SM
+                { max: 3798.06, aliquota: 0.12 },     // 12% de 1,67 a 2,5 SM
+                { max: 7786.02, aliquota: 0.14 }      // 14% de 2,5 a 5,13 SM
+            ],
+            
+            // FGTS
+            FGTS_ALIQUOTA: 0.08, // 8% sobre salário bruto
+            
+            // Contribuições patronais CLT (taxas reais)
+            CONTRIBUICOES_PATRONAIS: {
+                INSS_PATRONAL: 0.20,        // 20% INSS Patronal
+                FGTS_PATRONAL: 0.08         // 8% FGTS
+            },
+            
+            // Férias e 13º
+            FERIAS_ADICIONAL: 1/3,          // 1/3 sobre férias
+            DECIMO_TERCEIRO: 1,             // 1 salário
+            
+            // Multas rescisão
+            MULTA_FGTS: 0.40,              // 40% sobre FGTS depositado
+            AVISO_PREVIO: 30,              // 30 dias de aviso prévio
+            
+            // MEI e Simples Nacional
+            MEI: {
+                LIMITE_ANUAL: 81000,        // R$ 81.000/ano
+                DAS_MENSAL: 71.60,          // Valor fixo mensal 2025
+                INSS_CONTRIBUICAO: 66.60,   // 5% sobre salário mínimo
+                ICMS: 5.00                  // ICMS fixo
+            },
+            
+            SIMPLES_NACIONAL: {
+                // Anexo II - Indústria (exemplo)
+                FAIXAS: [
+                    { max: 180000, aliquota: 0.045 },    // 4,5%
+                    { max: 360000, aliquota: 0.078 },    // 7,8%
+                    { max: 720000, aliquota: 0.10 },     // 10%
+                    { max: 1800000, aliquota: 0.112 },   // 11,2%
+                    { max: 3600000, aliquota: 0.147 },   // 14,7%
+                    { max: 4800000, aliquota: 0.30 }     // 30%
+                ]
+            }
+        };
+
+        // ========== EMPLOYEE SYSTEM ==========
+        class EmployeeSystem {
+            constructor() {
+                this.supabase = null;
+                this.currentUser = null;
+                this.isEditing = false;
+                this.editingId = null;
+                this.employees = [];
+                this.selectedEmployee = null;
+                this.currentRegime = 'clt';
+                
+                this.initElements();
+                this.init();
+            }
+
+            initElements() {
+                // Form elements
+                this.form = document.getElementById('employeeForm');
+                this.formTitle = document.getElementById('formTitle');
+                this.saveButton = document.getElementById('saveButton');
+                this.clearButton = document.getElementById('clearForm');
+                
+                this.regimeButtons = document.querySelectorAll('.regime-btn');
+                
+                // Input elements
+                this.inputs = {
+                    id: document.getElementById('employeeId'),
+                    name: document.getElementById('employeeName'),
+                    email: document.getElementById('employeeEmail'),
+                    phone: document.getElementById('employeePhone'),
+                    salary: document.getElementById('employeeSalary'),
+                    startDate: document.getElementById('employeeStartDate')
+                };
+                
+                // List elements
+                this.searchInput = document.getElementById('searchInput');
+                this.employeesGrid = document.getElementById('employeesGrid');
+                
+                // Analysis elements
+                this.selectedEmployeeName = document.getElementById('selectedEmployeeName');
+                this.costAnalysisContent = document.getElementById('costAnalysisContent');
+            }
+
+            async init() {
+                console.log('🚀 Inicializando sistema de funcionários...');
+                
+                await this.initSupabase();
+                await this.getUserFromHeader();
+                this.setupEventListeners();
+                this.setupMasks();
+                await this.loadEmployees();
+            }
+
+            async initSupabase() {
+                try {
+                    if (typeof window.supabase !== 'undefined') {
+                        this.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                        console.log('✅ Supabase inicializado');
+                    } else {
+                        throw new Error('Biblioteca Supabase não carregada');
+                    }
+                } catch (error) {
+                    console.error('❌ Erro ao inicializar Supabase:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                }
+            }
+
+            async getUserFromHeader() {
+                try {
+                    if (window.HeaderSystem && window.HeaderSystem.getCurrentUser) {
+                        const headerUser = window.HeaderSystem.getCurrentUser();
+                        if (headerUser && headerUser.id) {
+                            this.currentUser = headerUser;
+                            return;
+                        }
+                    }
+
+                    const userData = localStorage.getItem('smartbiz_user');
+                    if (userData) {
+                        const parsedUser = JSON.parse(userData);
+                        if (parsedUser && parsedUser.id) {
+                            this.currentUser = parsedUser;
+                            return;
+                        }
+                    }
+
+                    if (this.supabase) {
+                        const { data: { session } } = await this.supabase.auth.getSession();
+                        if (session?.user) {
+                            this.currentUser = session.user;
+                            return;
+                        }
+                    }
+
+                    this.currentUser = {
+                        id: 'dev-user-' + Date.now(),
+                        email: 'dev@smartbiz.com'
+                    };
+                    
+                } catch (error) {
+                    console.error('❌ Erro ao obter usuário:', error);
+                    this.currentUser = {
+                        id: 'dev-user-' + Date.now(),
+                        email: 'dev@smartbiz.com'
+                    };
+                }
+            }
+
+            setupEventListeners() {
+                // Form submission
+                this.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.saveEmployee();
+                });
+
+                // Regime selector (removido)
+
+                // Clear form
+                this.clearButton.addEventListener('click', () => this.clearForm());
+
+                // Search
+                this.searchInput.addEventListener('input', () => this.filterEmployees());
+
+                this.inputs.name.focus();
+            }
+
+            setupMasks() {
+                // Máscara para telefone
+                this.inputs.phone.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length <= 11) {
+                        value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                        if (value.length < 14) {
+                            value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                        }
+                    }
+                    e.target.value = value;
+                });
+
+                // Máscara para salário
+                this.inputs.salary.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = (value / 100).toLocaleString('pt-BR', {
+                        style: 'currency',
+                        currency: 'BRL'
+                    });
+                    e.target.value = value;
+                });
+            }
+
+            async loadEmployees() {
+                if (!this.supabase) {
+                    this.showEmptyState();
+                    return;
+                }
+
+                try {
+                    console.log('📥 Carregando funcionários...');
+                    
+                    const { data: employees, error } = await this.supabase
+                        .from('funcionarios')
+                        .select('*')
+                        .eq('user', this.currentUser.id)
+                        .order('id', { ascending: false });
+
+                    if (error) {
+                        console.error('❌ Erro ao carregar funcionários:', error);
+                        this.showNotification('Erro ao carregar funcionários', 'error');
+                        this.showEmptyState();
+                        return;
+                    }
+
+                    this.employees = employees || [];
+                    this.renderEmployees(this.employees);
+                    
+                } catch (error) {
+                    console.error('❌ Erro na consulta:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                    this.showEmptyState();
+                }
+            }
+
+            renderEmployees(employees) {
+                if (!employees || employees.length === 0) {
+                    this.showEmptyState();
+                    return;
+                }
+
+                const employeeCards = employees.map(employee => {
+                    const initials = employee.nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const tempoServico = this.calcularTempoServico(employee.admissao);
+                    
+                    return `
+                        <div class="employee-card" onclick="employeeSystem.selectEmployee(${employee.id})">
+                            <div class="employee-header">
+                                <div class="employee-avatar">${initials}</div>
+                                <div class="employee-info">
+                                    <h3>${this.escapeHtml(employee.nome)}</h3>
+                                </div>
+                            </div>
+
+                            <div class="employee-details">
+                                <div><strong>E-mail:</strong><br>${employee.email}</div>
+                                <div><strong>Salário:</strong><br>${this.formatCurrency(employee.salario)}</div>
+                                <div><strong>Admissão:</strong><br>${this.formatDate(employee.admissao)}</div>
+                                <div><strong>Tempo:</strong><br>${tempoServico}</div>
+                            </div>
+
+                            <div class="employee-actions">
+                                <button class="action-btn edit" onclick="event.stopPropagation(); employeeSystem.editEmployee(${employee.id})">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                                    </svg>
+                                    Editar
+                                </button>
+                                <button class="action-btn delete" onclick="event.stopPropagation(); employeeSystem.deleteEmployee(${employee.id})">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                                        <path d="M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                    </svg>
+                                    Excluir
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                this.employeesGrid.innerHTML = employeeCards;
+            }
+
+            selectEmployee(id) {
+                // Remove seleção anterior
+                document.querySelectorAll('.employee-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+
+                // Adiciona seleção atual
+                event.currentTarget.classList.add('selected');
+
+                const employee = this.employees.find(emp => emp.id === id);
+                if (employee) {
+                    this.selectedEmployee = employee;
+                    this.selectedEmployeeName.textContent = employee.nome;
+                    this.showCostAnalysis(employee);
+                }
+            }
+
+            showCostAnalysis(employee) {
+                const salario = parseFloat(employee.salario);
+                const admissao = new Date(employee.admissao);
+                const hoje = new Date();
+                
+                const custos = this.calcularCustosCLT(salario, admissao, hoje);
+
+                this.costAnalysisContent.innerHTML = `
+                    <div class="cost-cards">
+                        <div class="cost-card">
+                            <div class="cost-label">Custo Total Mensal</div>
+                            <div class="cost-value">${this.formatCurrency(custos.custoTotalMensal)}</div>
+                        </div>
+                        
+                        <div class="cost-card warning">
+                            <div class="cost-label">Custo Anual</div>
+                            <div class="cost-value">${this.formatCurrency(custos.custoAnual)}</div>
+                        </div>
+                        
+                        <div class="cost-card danger">
+                            <div class="cost-label">Multa Rescisão (sem justa causa)</div>
+                            <div class="cost-value">${this.formatCurrency(custos.multaRescisao)}</div>
+                        </div>
+                    </div>
+
+                    <div class="cost-breakdown">
+                        <div class="breakdown-title">Detalhamento Mensal (CLT)</div>
+                        
+                        <div class="breakdown-item">
+                            <span>Salário Base</span>
+                            <span>${this.formatCurrency(salario)}</span>
+                        </div>
+                        
+                        <div class="breakdown-item">
+                            <span>INSS Patronal (20%)</span>
+                            <span>${this.formatCurrency(custos.inssPatronal)}</span>
+                        </div>
+                        
+                        <div class="breakdown-item">
+                            <span>FGTS (8%)</span>
+                            <span>${this.formatCurrency(custos.fgts)}</span>
+                        </div>
+                        
+                        <div class="breakdown-item">
+                            <span>13º Salário (1/12)</span>
+                            <span>${this.formatCurrency(custos.decimoTerceiro)}</span>
+                        </div>
+                        
+                        <div class="breakdown-item">
+                            <span>Férias + 1/3 (1/12)</span>
+                            <span>${this.formatCurrency(custos.ferias)}</span>
+                        </div>
+                        
+                        <div class="breakdown-item">
+                            <span><strong>Total Mensal CLT</strong></span>
+                            <span><strong>${this.formatCurrency(custos.custoTotalMensal)}</strong></span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem; padding: 1rem; background: #f8fafc; border-radius: 0.5rem; font-size: 0.875rem; color: #64748b;">
+                        <strong>⚠️ Importante:</strong> Cálculos baseados em legislação 2025. Consulte sempre um contador.
+                    </div>
+                `;
+            }
+
+            calcularCustosCLT(salario, admissao, hoje) {
+                const inssPatronal = salario * TRABALHO_CONFIG.CONTRIBUICOES_PATRONAIS.INSS_PATRONAL;
+                const fgts = salario * TRABALHO_CONFIG.CONTRIBUICOES_PATRONAIS.FGTS_PATRONAL;
+                
+                const decimoTerceiro = salario / 12;
+                const ferias = (salario + (salario * TRABALHO_CONFIG.FERIAS_ADICIONAL)) / 12;
+                
+                const custoTotalMensal = salario + inssPatronal + fgts + decimoTerceiro + ferias;
+                
+                const custoAnual = custoTotalMensal * 12;
+                
+                // Calcular FGTS acumulado para multa
+                const mesesTrabalhados = this.calcularMesesTrabalhados(admissao, hoje);
+                const fgtsAcumulado = fgts * mesesTrabalhados;
+                const multaRescisao = (fgtsAcumulado * TRABALHO_CONFIG.MULTA_FGTS) + salario; // Multa + aviso prévio
+                
+                return {
+                    custoTotalMensal,
+                    custoAnual,
+                    multaRescisao,
+                    inssPatronal,
+                    fgts,
+                    decimoTerceiro,
+                    ferias
+                };
+            }
+
+            // Função removida - não precisamos mais da comparação
+
+            calcularMesesTrabalhados(admissao, hoje) {
+                const diffTime = Math.abs(hoje - admissao);
+                const diffMonths = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 30.44));
+                return diffMonths;
+            }
+
+            calcularTempoServico(admissao) {
+                const hoje = new Date();
+                const dataAdmissao = new Date(admissao);
+                const diffTime = hoje - dataAdmissao;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays < 30) {
+                    return `${diffDays} dias`;
+                } else if (diffDays < 365) {
+                    const meses = Math.floor(diffDays / 30);
+                    return `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+                } else {
+                    const anos = Math.floor(diffDays / 365);
+                    const mesesRestantes = Math.floor((diffDays % 365) / 30);
+                    return `${anos} ${anos === 1 ? 'ano' : 'anos'}${mesesRestantes > 0 ? ` e ${mesesRestantes} ${mesesRestantes === 1 ? 'mês' : 'meses'}` : ''}`;
+                }
+            }
+
+            showEmptyState() {
+                this.employeesGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="empty-title">Nenhum funcionário encontrado</div>
+                        <div class="empty-description">Cadastre seu primeiro funcionário</div>
+                    </div>
+                `;
+            }
+
+            async saveEmployee() {
+                if (!this.supabase) {
+                    this.showNotification('Conexão não disponível', 'error');
+                    return;
+                }
+
+                if (!this.inputs.name.value.trim()) {
+                    this.showNotification('Nome é obrigatório', 'error');
+                    this.inputs.name.focus();
+                    return;
+                }
+
+                if (!this.inputs.email.value.trim()) {
+                    this.showNotification('E-mail é obrigatório', 'error');
+                    this.inputs.email.focus();
+                    return;
+                }
+
+                if (!this.inputs.salary.value.trim()) {
+                    this.showNotification('Salário é obrigatório', 'error');
+                    this.inputs.salary.focus();
+                    return;
+                }
+
+                if (!this.inputs.startDate.value) {
+                    this.showNotification('Data de admissão é obrigatória', 'error');
+                    this.inputs.startDate.focus();
+                    return;
+                }
+
+                try {
+                    this.setLoadingState(true);
+                    
+                    const employeeData = {
+                        nome: this.inputs.name.value.trim(),
+                        email: this.inputs.email.value.trim(),
+                        telefone: this.inputs.phone.value.trim() || null,
+                        salario: this.parseCurrency(this.inputs.salary.value),
+                        admissao: this.inputs.startDate.value,
+                        user: this.currentUser.id
+                    };
+
+                    let result;
+                    
+                    if (this.isEditing && this.editingId) {
+                        result = await this.supabase
+                            .from('funcionarios')
+                            .update(employeeData)
+                            .eq('id', this.editingId)
+                            .eq('user', this.currentUser.id)
+                            .select();
+                    } else {
+                        result = await this.supabase
+                            .from('funcionarios')
+                            .insert([employeeData])
+                            .select();
+                    }
+
+                    const { data, error } = result;
+
+                    if (error) {
+                        console.error('❌ Erro ao salvar funcionário:', error);
+                        this.showNotification('Erro: ' + error.message, 'error');
+                        return;
+                    }
+
+                    this.showNotification(
+                        this.isEditing ? 'Funcionário atualizado!' : 'Funcionário cadastrado!', 
+                        'success'
+                    );
+                    
+                    this.clearForm();
+                    await this.loadEmployees();
+                    
+                } catch (error) {
+                    console.error('❌ Erro ao salvar:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                } finally {
+                    this.setLoadingState(false);
+                }
+            }
+
+            editEmployee(id) {
+                const employee = this.employees.find(emp => emp.id === id);
+                if (!employee) {
+                    this.showNotification('Funcionário não encontrado', 'error');
+                    return;
+                }
+
+                this.isEditing = true;
+                this.editingId = id;
+                this.formTitle.textContent = 'Editar Funcionário';
+
+                this.inputs.id.value = employee.id;
+                this.inputs.name.value = employee.nome;
+                this.inputs.email.value = employee.email;
+                this.inputs.phone.value = employee.telefone || '';
+                this.inputs.salary.value = this.formatCurrency(employee.salario);
+                this.inputs.startDate.value = employee.admissao;
+
+                this.form.scrollIntoView({ behavior: 'smooth' });
+                this.inputs.name.focus();
+            }
+
+            async deleteEmployee(id) {
+                const employee = this.employees.find(emp => emp.id === id);
+                if (!employee) {
+                    this.showNotification('Funcionário não encontrado', 'error');
+                    return;
+                }
+
+                if (!confirm(`Excluir o funcionário "${employee.nome}"?`)) {
+                    return;
+                }
+
+                try {
+                    const { error } = await this.supabase
+                        .from('funcionarios')
+                        .delete()
+                        .eq('id', id)
+                        .eq('user', this.currentUser.id);
+
+                    if (error) {
+                        console.error('❌ Erro ao excluir:', error);
+                        this.showNotification('Erro ao excluir funcionário', 'error');
+                        return;
+                    }
+
+                    this.showNotification('Funcionário excluído!', 'success');
+                    
+                    // Se o funcionário excluído estava selecionado, limpar análise
+                    if (this.selectedEmployee && this.selectedEmployee.id === id) {
+                        this.selectedEmployee = null;
+                        this.selectedEmployeeName.textContent = 'Selecione um funcionário';
+                        this.costAnalysisContent.innerHTML = `
+                            <div class="no-selection">
+                                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                </svg>
+                                <p>Clique em um funcionário para ver a análise detalhada de custos trabalhistas</p>
+                            </div>
+                        `;
+                    }
+                    
+                    await this.loadEmployees();
+                    
+                } catch (error) {
+                    console.error('❌ Erro na exclusão:', error);
+                    this.showNotification('Erro ao conectar com o banco', 'error');
+                }
+            }
+
+            filterEmployees() {
+                const searchTerm = this.searchInput.value.toLowerCase().trim();
+                
+                if (!searchTerm) {
+                    this.renderEmployees(this.employees);
+                    return;
+                }
+
+                const filtered = this.employees.filter(employee => 
+                    employee.nome.toLowerCase().includes(searchTerm) ||
+                    employee.email.toLowerCase().includes(searchTerm) ||
+                    (employee.telefone && employee.telefone.includes(searchTerm))
+                );
+
+                this.renderEmployees(filtered);
+            }
+
+            clearForm() {
+                this.form.reset();
+                this.isEditing = false;
+                this.editingId = null;
+                this.formTitle.textContent = 'Cadastrar Funcionário';
+                this.inputs.name.focus();
+            }
+
+            setLoadingState(loading) {
+                this.saveButton.disabled = loading;
+                
+                if (loading) {
+                    this.saveButton.innerHTML = 'Salvando...';
+                } else {
+                    this.saveButton.innerHTML = 'Salvar Funcionário';
+                }
+            }
+
+            // Utility functions
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            formatCurrency(value) {
+                return parseFloat(value).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                });
+            }
+
+                        parseCurrency(value) {
+                if (!value) return null;
+                return parseFloat(
+                    value
+                        .replace('R$', '')      // Remove o símbolo R$
+                        .replace(/\./g, '')    // Remove os pontos (milhares)
+                        .replace(',', '.')     // Troca vírgula por ponto decimal
+                        .trim()
+                );
+            }
+
+
+            formatDate(dateString) {
+                if (!dateString) return '';
+                return new Date(dateString).toLocaleDateString('pt-BR');
+            }
+
+            showNotification(message, type = 'info') {
+                // Remove notification anterior
+                document.querySelectorAll('.notification').forEach(n => n.remove());
+
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Show notification
+                setTimeout(() => notification.classList.add('show'), 100);
+                
+                // Hide notification
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+        }
+
+        // ========== INITIALIZATION ==========
+        let employeeSystem;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                employeeSystem = new EmployeeSystem();
+            }, 2000);
+        });
+
+        console.log('👥 Sistema de Funcionários com Análise de Custos carregado!');
+    </script>
+</body>
+</html>

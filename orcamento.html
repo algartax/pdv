@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lume - Orçamentos</title>
+    <link rel="icon" type="image/png" href="log.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="orcamento.css">
+</head>
+<body>
+    <header id="header-container"></header>
+
+    <div class="orcamento-container">
+        <!-- SEÇÃO PRINCIPAL -->
+        <div class="main-section">
+            <!-- Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-calculator"></i> Orçamentos</h1>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="list-btn">
+                        <i class="fas fa-list"></i> Lista
+                    </button>
+                    <button class="btn btn-primary" id="new-btn">
+                        <i class="fas fa-plus"></i> Novo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Busca -->
+            <div class="search-section">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Buscar produto por nome ou código...">
+                </div>
+            </div>
+
+            <!-- Resultados -->
+            <div class="results-section">
+                <div class="products-grid" id="products-container">
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>Buscar Produtos</h3>
+                        <p>Digite o nome ou código do produto para começar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARRINHO -->
+        <div class="carrinho">
+            <!-- Header do Carrinho -->
+            <div class="carrinho-header">
+                <div class="carrinho-title">
+                    <h2>
+                        <i class="fas fa-shopping-cart"></i> Orçamento
+                        <span class="item-count" id="item-count">0</span>
+                    </h2>
+                    <button class="btn-outline" style="padding: 0.5rem;" id="clear-btn" title="Limpar">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+                <div class="carrinho-info">
+                    <span>Nº: <strong id="orcamento-number">Novo</strong></span>
+                    <span id="orcamento-date">Hoje</span>
+                </div>
+
+                <!-- Cliente -->
+                <div class="cliente-display" id="cliente-display">
+                    <div class="cliente-info">
+                        <i class="fas fa-user"></i>
+                        <div>
+                            <div class="cliente-nome" id="cliente-nome"></div>
+                            <div class="cliente-contato" id="cliente-contato"></div>
+                        </div>
+                    </div>
+                    <button class="remove-btn" id="remove-cliente-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <button class="btn btn-success" id="cliente-btn" style="margin-top: 1rem;">
+                    <i class="fas fa-user-plus"></i> Selecionar Cliente
+                </button>
+            </div>
+
+            <!-- Itens -->
+            <div class="carrinho-items" id="carrinho-items">
+                <div class="empty-state">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Nenhum item adicionado</p>
+                </div>
+            </div>
+
+            <!-- Ajustes -->
+            <div class="carrinho-ajustes">
+                <div class="ajustes-row">
+                    <div>
+                        <label>Desconto</label>
+                        <div class="input-group">
+                            <span class="input-prefix" id="desconto-tipo">%</span>
+                            <input type="number" id="desconto-input" placeholder="0" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Frete</label>
+                        <div class="input-group">
+                            <span class="input-prefix">R$</span>
+                            <input type="number" id="frete-input" placeholder="0,00" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <div class="observacoes">
+                    <textarea id="observacoes" placeholder="Observações, condições, prazo de entrega..."></textarea>
+                </div>
+            </div>
+
+            <!-- Totais -->
+            <div class="carrinho-totais">
+                <div class="total-linha">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">R$ 0,00</span>
+                </div>
+                <div class="total-linha desconto">
+                    <span>Desconto:</span>
+                    <span id="desconto-total">- R$ 0,00</span>
+                </div>
+                <div class="total-linha">
+                    <span>Frete:</span>
+                    <span id="frete-total">R$ 0,00</span>
+                </div>
+                <div class="total-linha final">
+                    <span>Total:</span>
+                    <span id="total-geral">R$ 0,00</span>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="carrinho-acoes">
+                <button class="btn btn-success" id="salvar-btn" disabled>
+                    <i class="fas fa-save"></i> Salvar Orçamento
+                </button>
+                <button class="btn btn-outline" id="pdf-btn" disabled>
+                    <i class="fas fa-file-pdf"></i> PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CLIENTE -->
+    <div class="modal hidden" id="cliente-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-users"></i> Selecionar Cliente</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-input" style="margin-bottom: 1rem;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="cliente-search" placeholder="Buscar por nome, telefone ou email...">
+                </div>
+                <div class="cliente-list" id="cliente-list">
+                    <div class="loading"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE LISTA -->
+    <div class="modal hidden" id="lista-modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-list"></i> Lista de Orçamentos</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-input" style="margin-bottom: 1rem;">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="orcamentos-search" placeholder="Buscar por número, cliente ou data...">
+                </div>
+                <div id="orcamentos-tabela">
+                    <div class="loading" style="margin: 2rem auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="header.js"></script>
+    <script src="orcamento.js"></script>
+    <script src="orcamento-pdf.js"></script>
+    <script src="orcamento-supa.js"></script>
+</body>
+</html>

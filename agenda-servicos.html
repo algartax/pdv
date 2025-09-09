@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lume - Agenda de Serviços</title>
+    <link rel="icon" type="image/png" href="log.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="agenda-servicos.css">
+</head>
+
+<body>
+    <!-- Header Container -->
+    <header id="header-container"></header>
+
+    <!-- Container Principal -->
+    <div class="agenda-container">
+        <!-- Cabeçalho da Agenda -->
+        <div class="agenda-header">
+            <h1>Agenda de Serviços</h1>
+            
+            <div class="header-actions">
+                <select class="filter-select" id="professional-filter">
+                    <option value="todos">Todos os Profissionais</option>
+                    <!-- Profissionais serão carregados dinamicamente do banco -->
+                </select>
+                
+                <button class="btn btn-secondary" id="today-btn">
+                    <i class="fas fa-calendar-day"></i>
+                    Hoje
+                </button>
+                
+                <button class="btn btn-primary" id="new-service-btn">
+                    <i class="fas fa-plus"></i>
+                    Novo Serviço
+                </button>
+                
+                <button class="nav-btn" id="settings-btn">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Layout Principal -->
+        <div class="agenda-main">
+            <!-- Seção da Agenda -->
+            <div class="agenda-section">
+                <div class="section-header">
+                    <div class="date-nav">
+                        <button class="nav-btn" id="prev-day">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="date-display">
+                            <h3 class="section-title" id="section-date">quarta-feira, 27 de agosto de 2025</h3>
+                        </div>
+                        <button class="nav-btn" id="next-day">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <span class="appointments-count" id="count-badge">0 agendamentos</span>
+                </div>
+                
+                <div class="timeline-container" id="timeline">
+                    <!-- Timeline será gerada dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Painel de Detalhes -->
+            <div class="details-panel">
+                <div class="panel-header">
+                    <h3 id="panel-title">Detalhes do Serviço</h3>
+                    <button class="close-btn" id="close-panel">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="panel-content" id="panel-content">
+                    <div class="empty-state">
+                        <i class="fas fa-hand-pointer"></i>
+                        <h4>Selecione um horário</h4>
+                        <p>Clique em um horário vazio para agendar um novo serviço ou em um agendamento para ver detalhes.</p>
+                    </div>
+                </div>
+                
+                <div class="panel-actions" id="panel-actions" style="display: none;">
+                    <button class="btn btn-primary" id="complete-service">
+                        Finalizar Serviço
+                    </button>
+                    <button class="btn btn-danger" id="cancel-service">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Agendamento -->
+    <div class="modal-overlay hidden" id="appointment-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Novo Agendamento</h3>
+                <button class="close-btn" id="close-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="appointment-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Serviço</label>
+                            <div class="select-with-add">
+                                <select class="form-input" id="service-select" required>
+                                    <option value="">Selecionar serviço</option>
+                                    <!-- Serviços serão carregados dinamicamente -->
+                                </select>
+                                <button type="button" class="btn-add-item" id="manage-services-btn" title="Gerenciar Serviços">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Cliente</label>
+                            <select class="form-input" id="client-select" required>
+                                <option value="">Selecionar cliente</option>
+                                <!-- Clientes serão carregados dinamicamente -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Profissional</label>
+                            <select class="form-input" id="professional-select" required>
+                                <option value="">Selecionar profissional</option>
+                                <!-- Profissionais serão carregados dinamicamente -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Valor</label>
+                            <input type="number" class="form-input" id="price-input" placeholder="0,00" step="0.01">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Data</label>
+                            <input type="date" class="form-input" id="date-input" required>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Seleção de Horários</label>
+                            
+                            <!-- Seleção de Intervalo -->
+                            <div class="time-range-selector">
+                                <div class="range-inputs">
+                                    <div class="range-input-group">
+                                        <label>Das</label>
+                                        <select class="form-input" id="start-time-select">
+                                            <option value="">Início</option>
+                                        </select>
+                                    </div>
+                                    <div class="range-separator">até</div>
+                                    <div class="range-input-group">
+                                        <label>Às</label>
+                                        <select class="form-input" id="end-time-select">
+                                            <option value="">Fim</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" id="select-range-btn">
+                                        Selecionar Intervalo
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="divider"></div>
+                            
+                            <!-- Seleção Individual -->
+                            <div class="time-selector" id="time-selector">
+                                <!-- Horários serão gerados dinamicamente -->
+                            </div>
+                            <div class="selected-times" id="selected-times">
+                                <span class="no-times">Nenhum horário selecionado</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label class="form-label">Observações</label>
+                            <textarea class="form-input" id="notes-input" placeholder="Observações sobre o serviço..." rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-appointment">Cancelar</button>
+                <button class="btn btn-primary" id="save-appointment">
+                    <i class="fas fa-save"></i>
+                    Agendar Serviço
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Gerenciar Serviços -->
+    <div class="modal-overlay hidden" id="services-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="services-modal-title">Gerenciar Serviços</h3>
+                <button class="close-btn" id="close-services-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Formulário de Serviço -->
+                <form id="service-form" class="service-form">
+                    <div class="form-grid-compact">
+                        <div class="form-group">
+                            <label class="form-label">Nome do Serviço</label>
+                            <input type="text" class="form-input" id="service-name-input" placeholder="Nome do serviço" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Preço (R$)</label>
+                            <input type="number" class="form-input" id="service-price-input" placeholder="0,00" step="0.01" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="clear-service-form">Limpar</button>
+                        <button type="submit" class="btn btn-primary" id="save-service">
+                            <i class="fas fa-save"></i>
+                            Salvar Serviço
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="divider-services">
+                    <span>Serviços Cadastrados</span>
+                </div>
+                
+                <!-- Lista de Serviços -->
+                <div class="services-list" id="services-list">
+                    <div class="loading-services">
+                        <div class="loading-spinner"></div>
+                        <span>Carregando serviços...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="close-services-modal-footer">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - ORDEM IMPORTANTE -->
+    <script src="header.js"></script>
+    <script src="adicionar-produtos-busca.js"></script>
+    <script src="agenda-servicos-supa.js"></script>
+    <script src="agenda-servicos.js"></script>
+    <script src="agenda-servicos-modal.js"></script>
+    <script src="agenda-servicos-agend.js"></script>
+    <script src="agenda-servicos-manager.js"></script>
+    <script src="agenda-servicos-config.js"></script>
+
+</body>
+</html>

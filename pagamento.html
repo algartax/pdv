@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lume - Pagamento do Sistema</title>
+    <link rel="icon" type="image/png" href="log.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link href="header.css" rel="stylesheet">
+    <link href="pagamento.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="header-container"></div>
+
+    <main class="main-container">
+        
+        <!-- Status Atual -->
+        <div class="cards-grid">
+            <div class="status-card">
+                <i id="status-icon" class="fas fa-clock status-icon status-vencendo"></i>
+                <h2 id="status-title" class="status-title">Carregando...</h2>
+                <p id="status-details" class="status-details">Verificando status da assinatura</p>
+                <div id="status-date" class="status-date date-vencendo">--/--/----</div>
+            </div>
+
+            <div class="status-card">
+                <i class="fas fa-chart-line status-icon" style="color: var(--cor-laranja);"></i>
+                <h2 class="status-title">Benefícios Ativos</h2>
+                <div class="status-details">
+                    <div style="margin-bottom: 10px;">✅ Sistema completo</div>
+                    <div style="margin-bottom: 10px;">✅ Suporte técnico</div>
+                    <div style="margin-bottom: 10px;">✅ Atualizações gratuitas</div>
+                    <div>✅ Backup automático</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Planos -->
+        <div class="planos-section">
+            <div class="planos-header">
+                <h2><i class="fas fa-crown"></i> Escolha seu Plano</h2>
+                <p>Mantenha seu sistema sempre ativo com os melhores preços</p>
+            </div>
+            
+            <div class="planos-grid">
+                <div class="plano-card" data-plano="mensal">
+                    <div class="plano-tipo">Mensal</div>
+                    <div class="plano-preco">R$ 27</div>
+                    <div class="plano-periodo">por mês</div>
+                    <ul class="plano-beneficios">
+                        <li><i class="fas fa-check"></i> Todos os recursos</li>
+                        <li><i class="fas fa-check"></i> Suporte técnico</li>
+                        <li><i class="fas fa-check"></i> Atualizações gratuitas</li>
+                        <li><i class="fas fa-check"></i> Backup automático</li>
+                    </ul>
+                </div>
+
+                <div class="plano-card" data-plano="anual">
+                    <div class="plano-badge">Mais Popular</div>
+                    <div class="plano-tipo">Anual</div>
+                    <div class="plano-preco">R$ 276</div>
+                    <div class="plano-periodo">por ano</div>
+                    <ul class="plano-beneficios">
+                        <li><i class="fas fa-check"></i> Todos os recursos</li>
+                        <li><i class="fas fa-check"></i> Suporte prioritário</li>
+                        <li><i class="fas fa-check"></i> Atualizações gratuitas</li>
+                        <li><i class="fas fa-check"></i> Backup automático</li>
+                        <li><i class="fas fa-crown"></i> Desconto especial</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formas de Pagamento -->
+        <div id="pagamento-section" class="pagamento-section">
+            <div class="section-header">
+                <i class="fas fa-credit-card"></i>
+                <h2>Forma de Pagamento</h2>
+            </div>
+
+            <div class="pagamento-opcoes">
+                <div class="pagamento-card" data-pagamento="pix">
+                    <i class="fas fa-qrcode pagamento-icon pix-icon"></i>
+                    <div class="pagamento-titulo">PIX</div>
+                    <div id="valor-pix" class="pagamento-valor">R$ 27,00</div>
+                    <div class="pagamento-descricao">
+                        Aprovação instantânea
+                        <span class="desconto-badge">Sem taxas</span>
+                    </div>
+                </div>
+
+                <div class="pagamento-card" data-pagamento="cartao">
+                    <i class="fas fa-credit-card pagamento-icon cartao-icon"></i>
+                    <div class="pagamento-titulo">Cartão de Crédito</div>
+                    <div id="valor-cartao" class="pagamento-valor">R$ 29,99</div>
+                    <div class="pagamento-descricao">
+                        Parcelamento disponível<br>
+                        <small>Taxas do Mercado Pago incluídas</small>
+                    </div>
+                </div>
+            </div>
+
+            <div id="message"></div>
+
+            <button id="btn-pagar" class="btn-pagar" disabled>
+                <i class="fas fa-lock"></i> Selecione um plano e forma de pagamento
+            </button>
+        </div>
+
+        <!-- Histórico -->
+        <div class="historico-section">
+            <div class="section-header">
+                <i class="fas fa-history"></i>
+                <h2>Histórico de Pagamentos</h2>
+            </div>
+            
+            <div id="historico-container">
+                <!-- Histórico será carregado aqui -->
+            </div>
+        </div>
+
+    </main>
+    
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="header.js"></script>
+    <script src="header-assinat.js"></script>
+    <script src="pagamento.js"></script>
+
+</body>
+</html>

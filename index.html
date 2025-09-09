@@ -3,74 +3,528 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartBiz - Login</title>
+    <title>Lume - Sistema Gestão Vendas Estoque PDV</title>
+    <link rel="icon" type="image/png" href="log.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-image">
-            <div class="brand">
-                <h1>SmartBiz</h1>
-                <p>Sistema inteligente para pequenas empresas</p>
-            </div>
-            <div class="features">
-                <div class="feature">
-                    <i class="fas fa-chart-line"></i>
-                    <div class="feature-text">
-                        <h3>Análise de Desempenho</h3>
-                        <p>Monitore seu negócio em tempo real</p>
-                    </div>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-users"></i>
-                    <div class="feature-text">
-                        <h3>Gestão de Clientes</h3>
-                        <p>Centralize todas as informações</p>
-                    </div>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-mobile-alt"></i>
-                    <div class="feature-text">
-                        <h3>100% Responsivo</h3>
-                        <p>Acesse de qualquer dispositivo</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="login-form">
-            <h2>Bem-vindo(a) de volta!</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" class="form-control" placeholder="Seu e-mail" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" class="form-control" placeholder="Sua senha" required>
-                </div>
-                <div class="forgot-password">
-                    <a href="#" id="forgotPassword">Esqueceu a senha?</a>
-                </div>
-                <button type="submit" class="btn btn-primary">Entrar no Sistema</button>
-            </form>
-            <div class="login-options">
-                <p>Ou continue com</p>
-                <div class="social-login">
-                    
-                </div>
-                <div class="register-link">
-                    Ainda não tem uma conta? <a href="#" id="createAccount">Criar conta</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
-    <script src="supabase.js"></script>
-    <script src="autenticar.js"></script>
-    <script src="index.js"></script>
+    <header>
+        <div class="header-logo">
+            <div class="logo-container">
+               <img src="log.png" alt="Lume Logo" class="logo-img">
+           </div>
+            <a href="#" class="logo-text">Lume</a>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#prices" class="nav-link">Preços</a></li>
+                <li><a href="#contact" class="nav-link">Contatos</a></li>
+                <li><a href="login.html" class="nav-link">Login</a></li>
+                <li>
+                    <a href="inscricao.html" class="btn-teste-gratis">
+                        Teste Grátis
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="carousel-section">
+            <div id="carousel">
+                <div class="carousel-item active">
+                    <div class="carousel-text-container">
+                        <div class="carousel-content">
+                            <h1>O Sistema de Gestão que vai <span class="text-highlight">Esquentar</span> seu negócio</h1>
+                            <p>Sistema completo de vendas, estoque e gestão. Interface moderna e relatórios inteligentes.</p>
+                            <div class="carousel-buttons">
+                                <a href="inscricao.html" class="btn-premium">
+                                    Começar teste grátis
+                                </a>
+                                <a href="#prices" class="btn-secondary">
+                                    Ver preços
+                                </a>
+                            </div>
+                            <div class="carousel-features">
+                                <span class="feature-item"><span class="feature-icon">⚡</span>Configuração Rápida</span>
+                                <span class="feature-item"><span class="feature-icon">🔒</span>100% Seguro</span>
+                                <span class="feature-item"><span class="feature-icon">☁️</span>100% Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-image-container">
+                        <img src="idx1.png" alt="Gestão de Estoque Simplificada">
+                    </div>
+                </div>
+                
+                <div class="carousel-item">
+                    <div class="carousel-text-container">
+                        <div class="carousel-content">
+                            <h1>Controle de Vendas super<span class="text-highlight"> Inteligentes</span></h1>
+                            <p>Gerencie seu estoque e vendas de forma eficiente, sem complicações.</p>
+                            <div class="price-box">
+                                <p>Apenas <span class="price-value">R$23/mês</span> • 10 dias grátis!</p>
+                            </div>
+                            <div class="carousel-buttons">
+                                <a href="#" class="btn-premium">
+                                    Começar teste grátis
+                                </a>
+                                <a href="#prices" class="btn-secondary">
+                                    Ver preços
+                                </a>
+                            </div>
+                            <div class="carousel-features">
+                                <span class="feature-item"><span class="feature-icon">⚡</span>Configuração Rápida</span>
+                                <span class="feature-item"><span class="feature-icon">🔒</span>100% Seguro</span>
+                                <span class="feature-item"><span class="feature-icon">☁️</span>100% Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-image-container">
+                        <img src="idx2.png" alt="Sistema Intuitivo e Poderoso">
+                    </div>
+                </div>
+                
+                <div class="carousel-item">
+                    <div class="carousel-text-container">
+                        <div class="carousel-content">
+                            <h1>Estoque <span class="text-highlight">Otimizado</span>, Lucros Maximizados</h1>
+                            <p>Mantenha seu inventário perfeito e aproveite <span class="text-highlight-bold">10 dias grátis</span> para ver a diferença!</p>
+                            <div class="carousel-buttons">
+                                <a href="#" class="btn-premium">
+                                    Começar teste grátis
+                                </a>
+                                <a href="#prices" class="btn-secondary">
+                                    Ver preços
+                                </a>
+                            </div>
+                            <div class="carousel-features">
+                                <span class="feature-item"><span class="feature-icon">⚡</span>Configuração Rápida</span>
+                                <span class="feature-item"><span class="feature-icon">🔒</span>100% Seguro</span>
+                                <span class="feature-item"><span class="feature-icon">☁️</span>100% Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-image-container">
+                        <img src="idx3.png" alt="Vendas Rápidas e Eficientes">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-dots">
+                <button class="carousel-dot active" onclick="goToSlide(0)"></button>
+                <button class="carousel-dot" onclick="goToSlide(1)"></button>
+                <button class="carousel-dot" onclick="goToSlide(2)"></button>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <h2>Sistema que <span class="price-highlight">Transforma</span> seu Negócio</h2>
+                <p class="section-subtitle">Simplicidade e poder em cada funcionalidade</p>
+                
+                <div class="features-grid"> 
+                    <div class="feature-card">
+                        <div class="feature-icon-container">
+                            <svg class="feature-svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3>Super Descomplicado</h3>
+                        <p>Interface intuitiva que qualquer pessoa aprende em minutos. Sem complicação, sem treinamento extenso.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon-container feature-delay-1">
+                            <svg class="feature-svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 12V8a1 1 0 012 0v4a1 1 0 11-2 0zm1-7a1 1 0 100 2 1 1 0 000-2z"/>
+                            </svg>
+                        </div>
+                        <h3>Gestão de Vendas</h3>
+                        <p>Controle suas vendas em tempo real, emita notas fiscais e gerencie pagamentos de forma descomplicada.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon-container feature-delay-2">
+                            <svg class="feature-svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM13 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zM13 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/>
+                            </svg>
+                        </div>
+                        <h3>Controle de Estoque</h3>
+                        <p>Mantenha seu estoque sempre atualizado, evite perdas e otimize suas compras com alertas inteligentes.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon-container feature-delay-3">
+                            <svg class="feature-svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3>Relatórios Inteligentes</h3>
+                        <p>Tome decisões estratégicas com base em dados precisos e relatórios completos em tempo real.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prices" class="prices-section">
+            <div class="container">
+                <div class="prices-header">
+                    <h2>Preços <span class="price-highlight">Transparentes</span></h2>
+                    <p>Sem taxas ocultas, sem surpresas. Apenas o melhor custo-benefício do mercado.</p>
+                    <div class="trial-badge">
+                        <span>💡 10 dias grátis para testar</span>
+                    </div>
+                </div>
+                
+                <div class="prices-grid">
+                    <div class="price-card">
+                        <div class="price-header">
+                            <h3>Plano Mensal</h3>
+                        </div>
+                    
+                        <div class="price-value-container">
+                            <div class="price-display">
+                                <span class="price-number">R$27</span>
+                                <span class="price-period">/mês</span>
+                            </div>
+                            <p class="price-subtitle">Sem compromisso anual</p>
+                        </div>
+                        
+                        <ul class="features-list">
+                            <li><span class="check-icon">✓</span><span>Usuários ilimitados</span></li>
+                            <li><span class="check-icon">✓</span><span>Produtos ilimitados</span></li>
+                            <li><span class="check-icon">✓</span><span>Vendas ilimitadas</span></li>
+                            <li><span class="check-icon">✓</span><span>Controle de estoque</span></li>
+                            <li><span class="check-icon">✓</span><span>Relatórios completos</span></li>
+                            <li><span class="check-icon">✓</span><span>Gestão de clientes</span></li>
+                            <li><span class="check-icon">✓</span><span>Controle Financeiro</span></li>
+                            <li><span class="check-icon">✓</span><span>Cupons não fiscais</span></li>
+                            <li><span class="check-icon">✓</span><span>Gerência de Crediário</span></li>
+                            <li><span class="check-icon">✓</span><span>Gestão de Cashback</span></li>
+                            <li><span class="check-icon">✓</span><span>Gráficos Modernos</span></li>
+                            <li><span class="check-icon">✓</span><span>Suporte via WhatsApp</span></li>
+          
+                        </ul>
+                        
+                        <a href="#" class="btn-premium btn-full">
+                            Sem fidelidade
+                        </a>
+                    </div>
+                    
+                    <div class="price-card popular">
+                        <div class="popular-badge">
+                            🔥 MAIS ECONÔMICO
+                        </div>
+                        
+                        <div class="price-header">
+                            <h3>Plano Anual</h3>
+                        </div>
+                        
+                        <div class="price-value-container">
+                            <div class="price-display">
+                                <span class="price-number">R$276</span>
+                                <span class="price-period">/ano</span>
+                            </div>
+                            <div class="price-savings">
+                                <span class="old-price">R$324</span>
+                                <span class="savings-badge">
+                                    Economize R$48
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <ul class="features-list">
+                            <li><span class="check-icon">✓</span><span>Usuários ilimitados</span></li>
+                            <li><span class="check-icon">✓</span><span>Produtos ilimitados</span></li>
+                            <li><span class="check-icon">✓</span><span>Vendas ilimitadas</span></li>
+                            <li><span class="check-icon">✓</span><span>Controle de estoque</span></li>
+                            <li><span class="check-icon">✓</span><span>Relatórios completos</span></li>
+                            <li><span class="check-icon">✓</span><span>Gestão de clientes</span></li>
+                            <li><span class="check-icon">✓</span><span>Controle Financeiro</span></li>
+                            <li><span class="check-icon">✓</span><span>Cupons não fiscais</span></li>
+                            <li><span class="check-icon">✓</span><span>Gerência de Crediário</span></li>
+                            <li><span class="check-icon">✓</span><span>Gestão de Cashback</span></li>
+                            <li><span class="check-icon">✓</span><span>Gráficos Modernos</span></li>
+                            <li><span class="check-icon">✓</span><span>Suporte via WhatsApp</span></li>
+                            
+                        </ul>
+                        
+                        <a href="#" class="btn-premium btn-full">
+                            Apenas R$ 23 por mês
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="analytics-section">
+            <div class="container">
+                <h2>Análises <span class="price-highlight">Inteligentes</span> ao Seu Alcance</h2>
+                
+                <div class="analytics-container">
+                    <div class="line-chart-premium">
+                        <svg viewBox="0 0 500 250">
+                            <defs>
+                                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#FF8C00;stop-opacity:1" />
+                                    <stop offset="25%" style="stop-color:#FFA500;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#FFD700;stop-opacity:1" />
+                                    <stop offset="75%" style="stop-color:#FFA500;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+                                </linearGradient>
+                                <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#FF8C00;stop-opacity:0.4" />
+                                    <stop offset="50%" style="stop-color:#FFA500;stop-opacity:0.2" />
+                                    <stop offset="100%" style="stop-color:#FFD700;stop-opacity:0" />
+                                </linearGradient>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                    <feMerge> 
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            
+                            <defs>
+                                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                                    <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#grid)" opacity="0.3"/>
+                            
+                            <path d="M 50 180 Q 120 150 190 160 T 290 125 T 390 110 T 450 95 L 450 200 L 50 200 Z" 
+                                  fill="url(#areaGradient)" opacity="0.6"/>
+                            
+                            <path class="line-path-premium" 
+                                  d="M 50 180 Q 120 150 190 160 T 290 125 T 390 110 T 450 95"
+                                  filter="url(#glow)"/>
+                            
+                            <g class="data-points-group">
+                                <circle class="data-point-premium" cx="50" cy="180" r="6"/>
+                                <rect class="tooltip-bg" x="20" y="140" width="60" height="25" rx="12" fill="rgba(255,140,0,0.9)"/>
+                                <text class="tooltip-text" x="50" y="157" text-anchor="middle" fill="white" font-weight="bold" font-size="12">45%</text>
+                                <text class="month-label" x="50" y="230" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">Jan</text>
+                                
+                                <circle class="data-point-premium" cx="130" cy="150" r="6"/>
+                                <rect class="tooltip-bg" x="100" y="110" width="60" height="25" rx="12" fill="rgba(255,140,0,0.9)"/>
+                                <text class="tooltip-text" x="130" y="127" text-anchor="middle" fill="white" font-weight="bold" font-size="12">62%</text>
+                                <text class="month-label" x="130" y="230" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">Fev</text>
+                                
+                                <circle class="data-point-premium" cx="210" cy="160" r="6"/>
+                                <rect class="tooltip-bg" x="180" y="120" width="60" height="25" rx="12" fill="rgba(255,140,0,0.9)"/>
+                                <text class="tooltip-text" x="210" y="137" text-anchor="middle" fill="white" font-weight="bold" font-size="12">58%</text>
+                                <text class="month-label" x="210" y="230" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">Mar</text>
+                                
+                                <circle class="data-point-premium" cx="290" cy="125" r="6"/>
+                                <rect class="tooltip-bg" x="260" y="85" width="60" height="25" rx="12" fill="rgba(255,140,0,0.9)"/>
+                                <text class="tooltip-text" x="290" y="102" text-anchor="middle" fill="white" font-weight="bold" font-size="12">75%</text>
+                                <text class="month-label" x="290" y="230" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">Abr</text>
+                                
+                                <circle class="data-point-premium" cx="370" cy="110" r="6"/>
+                                <rect class="tooltip-bg" x="340" y="70" width="60" height="25" rx="12" fill="rgba(255,140,0,0.9)"/>
+                                <text class="tooltip-text" x="370" y="87" text-anchor="middle" fill="white" font-weight="bold" font-size="12">84%</text>
+                                <text class="month-label" x="370" y="230" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">Mai</text>
+
+                                <circle class="data-point-premium" cx="450" cy="95" r="6"/>
+                                <rect class="tooltip-bg" x="420" y="55" width="60" height="25" rx="12" fill="rgba(255,140,0,0.9)"/>
+                                <text class="tooltip-text" x="450" y="72" text-anchor="middle" fill="white" font-weight="bold" font-size="12">92%</text>
+                                <text class="month-label" x="450" y="230" text-anchor="middle" fill="#94a3b8" font-size="11" font-weight="500">Jun</text>
+                            </g>
+                        </svg>
+                    </div>
+                    
+                    <div class="analytics-text">
+                        
+                        <div class="performance-metrics">
+                            <div class="performance-metric">
+                                <div class="metric-value">+127%</div>
+                                <div class="metric-label">Crescimento mensal</div>
+                            </div>
+                            <div class="performance-metric">
+                                <div class="metric-value">R$ 45k</div>
+                                <div class="metric-label">Faturamento médio</div>
+                            </div>
+                            <div class="performance-metric">
+                                <div class="metric-value">2.3k</div>
+                                <div class="metric-label">Produtos vendidos</div>
+                            </div>
+                            
+                        </div>
+                        <p>.</p>
+                        <div class="charts-grid">
+                            <div class="chart-category">
+                                <h4>📊 Análise de Vendas</h4>
+                                <ul>
+                                    <li>Vendas por Dia da Semana</li>
+                                    <li>Vendas por Horário</li>
+                                    <li>Evolução de Vendas</li>
+                                    <li>Top 10 Produtos Vendidos</li>
+                                </ul>
+                            </div>
+                            <div class="chart-category">
+                                <h4>💰 Controle Financeiro</h4>
+                                <ul>
+                                    <li>Formas de Pagamento Mais Usadas</li>
+                                    <li>Análise de Margem de Lucro</li>
+                                    <li>Evolução de Comissões</li>
+                                    <li>Controle de Cashback</li>
+                                </ul>
+                            </div>
+                            <div class="chart-category">
+                                <h4>📦 Gestão de Estoque</h4>
+                                <ul>
+                                    <li>Alerta de Estoque Baixo</li>
+                                    <li>Status do Estoque</li>
+                                    <li>Distribuição por Categoria</li>
+                                    <li>Frequência de Compra Cliente</li>
+                                </ul>
+                            </div>
+                            <div class="chart-category more-charts">
+                                <h4>🚀 E muito mais...</h4>
+                                <p>Dashboards interativos, relatórios personalizados e análises avançadas para impulsionar seu negócio!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="analytics-description">
+                    Visualize suas vendas, estoque e desempenho com gráficos claros e intuitivos. Tome decisões baseadas em dados reais.
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo"> 
+                <img src="log.png" alt="Ambiente de Comércio Moderno" class="footer-img"> 
+            </div>
+
+            <div class="footer-links"> 
+                <div class="footer-column" id="prices">
+                    <h4>Preços</h4>
+                    <ul>
+                        <li><a href="#">Planos</a></li>
+                        <li><a href="#">Recursos</a></li>
+                        <li><a href="#">Comparar Planos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column" id="contact">
+                    <h4>Contatos</h4>
+                    <ul>
+                        <li><a href="#">Suporte</a></li>
+                        <li><a href="#">Vendas</a></li>
+                        <li><a href="#">Fale Conosco</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column" id="login">
+                    <h4>Login</h4>
+                    <ul>
+                        <li><a href="#">Área do Cliente</a></li>
+                        <li><a href="#">Cadastre-se</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Lume. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const carouselDots = document.querySelectorAll('.carousel-dot');
+    let currentIndex = 0;
+    let intervalId; 
+
+    function showSlide(index) {
+        carouselItems.forEach((item, i) => {
+            item.classList.remove('active');
+            if (i === index) {
+                item.classList.add('active');
+            }
+        });
+        carouselDots.forEach((dot, i) => {
+            dot.classList.remove('active');
+            if (i === index) {
+                dot.classList.add('active');
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % carouselItems.length;
+        showSlide(currentIndex);
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        showSlide(currentIndex);
+        resetInterval(); 
+    }
+
+    function resetInterval() {
+        clearInterval(intervalId); 
+        intervalId = setInterval(nextSlide, 5000); 
+    }
+
+    showSlide(currentIndex);
+    resetInterval(); 
+
+    window.goToSlide = goToSlide;
+
+    // Funções para os botões do footer
+    function abrirWhatsApp() {
+        window.open('https://wa.me/5534996612499', '_blank');
+    }
+
+    function irParaPrecos() {
+        document.getElementById('prices').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function irParaLogin() {
+        window.location.href = 'login.html';
+    }
+
+    function irParaInscricao() {
+        window.location.href = 'inscricao.html';
+    }
+
+    // Adicionar eventos aos links do footer
+    const footerLinks = document.querySelectorAll('.footer-column a');
+    footerLinks.forEach(link => {
+        const text = link.textContent.trim();
+        
+        if (text === 'Planos' || text === 'Recursos' || text === 'Comparar Planos') {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                irParaPrecos();
+            });
+        } else if (text === 'Suporte' || text === 'Vendas' || text === 'Fale Conosco') {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                abrirWhatsApp();
+            });
+        } else if (text === 'Área do Cliente') {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                irParaLogin();
+            });
+        } else if (text === 'Cadastre-se') {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                irParaInscricao();
+            });
+        }
+    });
+});
+    </script>
 </body>
 </html>
